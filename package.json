@@ -1,0 +1,19 @@
+{
+  "name": "multiplayer_sirtet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5x2is/multiPlayer_sirtet.git"
+  },
+  "author": "ten.e.k",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/5x2is/multiPlayer_sirtet/issues"
+  },
+  "homepage": "https://github.com/5x2is/multiPlayer_sirtet#readme"
+}
