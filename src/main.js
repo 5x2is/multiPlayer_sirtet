@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 console.log('ver1.0.0');
 
 //port関係

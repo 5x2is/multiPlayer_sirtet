@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/5x2is/multiPlayer_sirtet/issues"
   },
-  "homepage": "https://github.com/5x2is/multiPlayer_sirtet#readme"
+  "homepage": "https://github.com/5x2is/multiPlayer_sirtet#readme",
+  "dependencies": {
+    "eslint": "^6.8.0"
+  }
 }
