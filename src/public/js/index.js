@@ -17,7 +17,6 @@ const init = ()=>{
 };
 
 const update = ()=>{
-    console.log('update');
     render();
     requestAnimationFrame(update);
 };
@@ -27,16 +26,29 @@ const render = ()=>{
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle = 'rgb(0,255,0)';
     ctx.fillRect(position[0]*20,position[1]*20,20,20);
+    console.log(position[1]);
 };
 
 window.addEventListener('load',init);
-window.addEventLIstener('keydown',(key)=>{
-    const keyName = key.key;
-    
-    switch (keyName){
-        case 'aaa':
+window.addEventListener('keydown',(key)=>{
+    const keyCode = key.which;
+
+    console.log(keyCode);
+    switch (keyCode){
+        case 39:
+            position[0]++;
+            break;
+        case 37:
+            position[0]--;
+            break;
+        case 38:
+            position[1]--;
+            break;
+        case 40:
+            position[1]++;
             break;
         default:
             break;
     }
+    console.log(position[1]);
 });

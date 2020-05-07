@@ -18,7 +18,7 @@ module.exports = {
         'array-bracket-newline': 'error',
         'array-bracket-spacing': 'error',
         'array-callback-return': 'error',
-        'array-element-newline': 'error',
+        'array-element-newline': 'off',
         'arrow-body-style': 'error',
         'arrow-parens': 'error',
         'arrow-spacing': [
@@ -34,8 +34,8 @@ module.exports = {
         'callback-return': 'error',
         'camelcase': 'error',
         'capitalized-comments': [
-            'error',
-            'never'
+            'off',
+            'off'
         ],
         'class-methods-use-this': 'error',
         'comma-dangle': 'error',
@@ -74,7 +74,7 @@ module.exports = {
         'implicit-arrow-linebreak': 'error',
         'indent': 'off',
         'indent-legacy': 'off',
-        'init-declarations': 'error',
+        'init-declarations': 'off',
         'jsx-quotes': 'error',
         'key-spacing': 'error',
         'keyword-spacing': 'error',
@@ -158,7 +158,7 @@ module.exports = {
         'no-octal-escape': 'error',
         'no-param-reassign': 'error',
         'no-path-concat': 'off',
-        'no-plusplus': 'error',
+        'no-plusplus': 'off',
         'no-process-env': 'off',
         'no-process-exit': 'error',
         'no-proto': 'error',
@@ -192,7 +192,7 @@ module.exports = {
         'no-unmodified-loop-condition': 'error',
         'no-unneeded-ternary': 'error',
         'no-unused-expressions': 'error',
-        'no-use-before-define': 'error',
+        'no-use-before-define': 'off',
         'no-useless-call': 'error',
         'no-useless-computed-key': 'error',
         'no-useless-concat': 'error',
@@ -247,7 +247,7 @@ module.exports = {
         'sort-imports': 'error',
         'sort-keys': 'error',
         'sort-vars': 'error',
-        'space-before-blocks': 'error',
+        'space-before-blocks': 'off',
         'space-before-function-paren': 'error',
         'space-in-parens': [
             'error',

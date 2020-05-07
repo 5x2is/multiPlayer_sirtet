@@ -4,12 +4,20 @@ console.log('ver1.0.0');
 //port関係
 const express = require('express');
 const app = express();
-const http = require('http').Server(app);
 const PORT = process.env.PORT || 4000;
+//パス指定用モジュール
+const path = require('path');
 
-app.get('/',(req,res)=>{
-	res.sendFile(__dirname+'/index.html');
-});
-http.listen(PORT,()=>{
+//PORT番ポートで待ちうける
+app.listen(PORT,()=>{
 	console.log('server listening port:'+PORT);
+});
+
+
+//静的ファイルのルーティング
+app.use(express.static(path.join(__dirname,'public')));
+
+//その他のリクエストに対する404エラー
+app.use((req,res)=>{
+    res.sendStatus(404);
 });
