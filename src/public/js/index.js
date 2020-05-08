@@ -2,14 +2,16 @@
 console.log('index.js');
 let ctx;
 let canvas;
-const SCREEN_WIDTH = 800;
-const SCREEN_HEIGHT = 600;
+const SCREEN_WIDTH = 500;
+const SCREEN_HEIGHT = 500;
 const position = [0,0];
+const socketio = io();
 
 //初期化処理
 const init = ()=>{
     console.log('init');
     canvas = document.getElementById('maincanvas');
+    canvas.style.backgroundColor = 'gray';
     ctx = canvas.getContext('2d');
     canvas.width = SCREEN_WIDTH;
     canvas.height= SCREEN_HEIGHT;
@@ -33,6 +35,7 @@ window.addEventListener('load',init);
 window.addEventListener('keydown',(key)=>{
     const keyCode = key.which;
 
+    socketio.emit('message',keyCode);
     console.log(keyCode);
     switch (keyCode){
         case 39:
