@@ -7,6 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 //パス指定用モジュール
 const path = require('path');
+//webSocket
+const io = require('socket.io').listen(app.listen(PORT));
 
 //PORT番ポートで待ちうける
 app.listen(PORT,()=>{
@@ -21,3 +23,10 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use((req,res)=>{
     res.sendStatus(404);
 });
+io.on('connection',(socket)=>{
+    socket.on('message',(msg)=>{
+        console.log('message: '+ msg);
+        //io.emit('meessage',msg);
+    });
+});
+
