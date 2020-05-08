@@ -23,10 +23,28 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use((req,res)=>{
     res.sendStatus(404);
 });
+const position = [0,0];
+
 io.on('connection',(socket)=>{
-    socket.on('message',(msg)=>{
-        console.log('message: '+ msg);
-        //io.emit('meessage',msg);
+    io.emit('message',position);
+    socket.on('message',(keyCode)=>{
+        switch (keyCode){
+            case 39:
+                position[0]++;
+                break;
+            case 37:
+                position[0]--;
+                break;
+            case 38:
+                position[1]--;
+                break;
+            case 40:
+                position[1]++;
+                break;
+            default:
+                break;
+        }
+        io.emit('message',position);
     });
 });
 
