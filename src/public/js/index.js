@@ -16,6 +16,7 @@ const init = ()=>{
     ctx = canvas.getContext('2d');
     canvas.width = SCREEN_WIDTH;
     canvas.height= SCREEN_HEIGHT;
+    socketio.emit();
 };
 
 const render = (position)=>{
