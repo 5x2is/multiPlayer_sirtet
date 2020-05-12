@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 4000;
 const path = require('path');
 //webSocket
 const io = require('socket.io').listen(app.listen(PORT));
+let timerId = 0;
 
 //PORT番ポートで待ちうける
 app.listen(PORT,()=>{
@@ -26,7 +27,10 @@ app.use((req,res)=>{
 const position = [0,0];
 
 io.on('connection',(socket)=>{
-    io.emit('message',position);
+    clearInterval(timerId);
+    timerId = setInterval(()=>{
+        io.emit('message',position);
+    },100);
     socket.on('message',(keyCode)=>{
         switch (keyCode){
             case 39:
@@ -44,7 +48,6 @@ io.on('connection',(socket)=>{
             default:
                 break;
         }
-        io.emit('message',position);
     });
 });
 
