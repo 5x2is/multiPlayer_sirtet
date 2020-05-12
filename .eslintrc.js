@@ -85,7 +85,7 @@ module.exports = {
         ],
         'lines-around-comment': 'error',
         'lines-around-directive': 'off',
-        'lines-between-class-members': 'error',
+        'lines-between-class-members': 'off',
         'max-classes-per-file': 'error',
         'max-depth': 'error',
         'max-len': 'error',
@@ -98,10 +98,7 @@ module.exports = {
         'multiline-comment-style': 'error',
         'multiline-ternary': 'error',
         'new-parens': 'error',
-        'newline-after-var': [
-            'error',
-            'always'
-        ],
+        'newline-after-var': 'off',
         'newline-before-return': 'error',
         'newline-per-chained-call': 'error',
         'no-alert': 'error',
@@ -248,7 +245,7 @@ module.exports = {
         'sort-keys': 'error',
         'sort-vars': 'error',
         'space-before-blocks': 'off',
-        'space-before-function-paren': 'error',
+        'space-before-function-paren': 'off',
         'space-in-parens': [
             'error',
             'never'
