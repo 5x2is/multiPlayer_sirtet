@@ -9,13 +9,16 @@ const PORT = process.env.PORT || 4000;
 const path = require('path');
 //webSocket
 const io = require('socket.io').listen(app.listen(PORT));
-let timerId = 0;
+//ゲームクラス
+const Game = require('./libs/game.js');
 
 //PORT番ポートで待ちうける
 app.listen(PORT,()=>{
 	console.log('server listening port:'+PORT);
 });
 
+const game = new Game(io);
+game.start();
 
 //静的ファイルのルーティング
 app.use(express.static(path.join(__dirname,'public')));
@@ -24,30 +27,3 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use((req,res)=>{
     res.sendStatus(404);
 });
-const position = [0,0];
-
-io.on('connection',(socket)=>{
-    clearInterval(timerId);
-    timerId = setInterval(()=>{
-        io.emit('message',position);
-    },100);
-    socket.on('message',(keyCode)=>{
-        switch (keyCode){
-            case 39:
-                position[0]++;
-                break;
-            case 37:
-                position[0]--;
-                break;
-            case 38:
-                position[1]--;
-                break;
-            case 40:
-                position[1]++;
-                break;
-            default:
-                break;
-        }
-    });
-});
-
