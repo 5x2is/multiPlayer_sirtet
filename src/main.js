@@ -17,8 +17,8 @@ app.listen(PORT,()=>{
 	console.log('server listening port:'+PORT);
 });
 
-const game = new Game(io);
-game.start();
+const game = new Game();
+game.start(io);
 
 //静的ファイルのルーティング
 app.use(express.static(path.join(__dirname,'public')));

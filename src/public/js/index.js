@@ -16,29 +16,33 @@ const init = ()=>{
     ctx = canvas.getContext('2d');
     canvas.width = SCREEN_WIDTH;
     canvas.height= SCREEN_HEIGHT;
-    socketio.emit();
+    socketio.emit('enter-the-game');
 };
 
-const render = (position)=>{
+const render = (positions)=>{
     if(isnotInit){
        return;
     }
-    console.log('render');
     //全体をクリア
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = 'rgb(0,255,0)';
-    ctx.fillRect(position[0]*20,position[1]*20,20,20);
-    console.log(position[1]);
+    if(!positions.length){
+        console.log('empty');
+
+        return;
+    }
+    positions.forEach((position)=>{
+        const {fX,fY} = position;
+        ctx.fillStyle = 'rgb(0,255,0)';
+        ctx.fillRect(fX*20,fY*20,20,20);
+    });
 };
 
 window.addEventListener('load',init);
 window.addEventListener('keydown',(key)=>{
     const keyCode = key.which;
 
-    socketio.emit('message',keyCode);
+    socketio.emit('move',keyCode);
 });
-socketio.on('message',(position)=>{
-    console.log(position[0]);
-    console.log(position[1]);
-    render(position);
+socketio.on('update',(positions)=>{
+    render(positions);
 });
