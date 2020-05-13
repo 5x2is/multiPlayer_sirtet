@@ -37,7 +37,7 @@ module.exports = {
             'off',
             'off'
         ],
-        'class-methods-use-this': 'error',
+        'class-methods-use-this': 'off',
         'comma-dangle': 'error',
         'comma-spacing': [
             'error',
@@ -78,7 +78,7 @@ module.exports = {
         'jsx-quotes': 'error',
         'key-spacing': 'error',
         'keyword-spacing': 'off',
-        'line-comment-position': 'error',
+        'line-comment-position': 'off',
         'linebreak-style': [
             'error',
             'unix'
@@ -128,7 +128,7 @@ module.exports = {
         'no-implicit-globals': 'error',
         'no-implied-eval': 'error',
         'no-import-assign': 'error',
-        'no-inline-comments': 'error',
+        'no-inline-comments': 'off',
         'no-invalid-this': 'error',
         'no-iterator': 'error',
         'no-label-var': 'error',
