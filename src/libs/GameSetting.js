@@ -7,7 +7,7 @@ module.exports = class GameSetting{
             return process.argv[2];
         }
 
-        return 20;
+        return 30;//frame per sec
     }
     static get FIELD_WIDTH(){
         return 25;
@@ -23,5 +23,8 @@ module.exports = class GameSetting{
             FIELD_HEIGHT: this.FIELD_HEIGHT*this.CELL_SIZE,
             FIELD_WIDTH: this.FIELD_WIDTH*this.CELL_SIZE
         };
+    }
+    static get DROP_SPEED(){
+        return 800;
     }
 };

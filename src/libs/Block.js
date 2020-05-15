@@ -1,10 +1,12 @@
 'use strict';
+const GameSetting = require('./GameSetting.js');
 module.exports = class Block{
     constructor(){
         this.fX = 0;
         this.fY = 0;
         this.stat= 'ready';//nextBlockのときはnext1,next2,next3 holdのときはholdが入る。
         this.type = 0;
+        this.dropInterval = setInterval(this.drop.bind(this,this),GameSetting.DROP_SPEED);
     }
     move(key){
         switch (key){
@@ -23,5 +25,11 @@ module.exports = class Block{
             default:
                 break;
         }
+    }
+    drop(){
+        this.fY++;
+    }
+    stopDrop(){
+        clearInterval(this.dropInterval);
     }
 };
