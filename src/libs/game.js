@@ -10,6 +10,7 @@ module.exports = class Game{
             socket.on('enter-the-game',()=>{
                 console.log('new user'+socket.id);
                 user = world.addUser(socket.id);
+                io.emit('setting',GameSetting.CLIENT_SETTING);
             });
             socket.on('move',(keyCode)=>{
                 //console.log('move:'+socket.id);

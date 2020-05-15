@@ -4,8 +4,8 @@ class Screen{
         this.socket = socket;
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
-        this.canvas.width = SharedSettings.FIELD_WIDTH;
-        this.canvas.height = SharedSettings.FIELD_HEIGHT;
+        this.canvas.width;
+        this.canvas.height;
         this.canvas.style.backgroundColor = 'gray';
 
         this.initSocket();
@@ -13,6 +13,10 @@ class Screen{
     initSocket(){
         this.socket.on('connect',()=>{
             this.socket.emit('enter-the-game');
+        });
+        this.socket.on('setting',(setting)=>{
+            this.canvas.width = setting.FIELD_WIDTH;
+            this.canvas.height = setting.FIELD_HEIGHT;
         });
         this.socket.on('update',(fieldDat)=>{
             this.render(fieldDat);
