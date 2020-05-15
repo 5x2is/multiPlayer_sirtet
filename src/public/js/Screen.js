@@ -26,7 +26,7 @@ class Screen{
 
             return;
         }
-        console.log(fieldDat);
+        //console.log(fieldDat);
         for(let fX=0; fX<fieldDat.length; fX++){
             for(let fY=0; fY<fieldDat[fX].length; fY++){
                 if(fieldDat[fX][fY] === 1){

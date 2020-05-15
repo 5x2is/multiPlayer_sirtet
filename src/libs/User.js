@@ -1,25 +1,22 @@
 'use strict';
+const Block = require('./Block.js');
 module.exports = class User{
     constructor(){
-        this.fX = 0;
-        this.fY = 0;
+        this.setBlock = new Set();
+        this.addBlock();
     }
-    move(key){
-        switch (key){
-            case 39:
-                this.fX++;
-                break;
-            case 37:
-                this.fX--;
-                break;
-            case 38:
-                this.fY--;
-                break;
-            case 40:
-                this.fY++;
-                break;
-            default:
-                break;
+    addBlock(){
+        const block = new Block();
+        this.setBlock.add(block);
+    }
+    removeBlock(block){
+        this.setBlock.delete(block);
+    }
+    moveBlock(key){
+        for(const block of this.setBlock){
+            if(block.stat === 'ready'){
+                block.move(key);
+            }
         }
     }
 };

@@ -16,7 +16,7 @@ module.exports = class Game{
                 if(!user){
                     return;
                 }
-                user.move(keyCode);
+                user.moveBlock(keyCode);
             });
             socket.on('disconnect',()=>{
                 if(!user){

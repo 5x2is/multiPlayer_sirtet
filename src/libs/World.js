@@ -23,7 +23,11 @@ module.exports = class World{
             fieldData[fX] = fieldColumn;
         }
         for(const user of this.setUser){
-            fieldData[user.fX][user.fY] = 1;
+            for(const block of user.setBlock){
+                if(block.stat === 'ready'){
+                    fieldData[block.fX][block.fY] = 1;
+                }
+            }
         }
         //console.log(fieldData);
 
