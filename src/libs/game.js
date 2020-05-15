@@ -27,7 +27,7 @@ module.exports = class Game{
             });
         });
         setInterval(()=>{
-            io.emit('update',Array.from(world.setUser));
+            io.emit('update',world.createFieldData());
         },1000/GameSetting.FRAMERATE);
     }
 };
