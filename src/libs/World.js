@@ -11,5 +11,8 @@ module.exports = class World{
 
         return user;
     }
+    removeUser(user){
+        this.setUser.delete(user);
+    }
 };
 
