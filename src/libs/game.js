@@ -18,6 +18,13 @@ module.exports = class Game{
                 }
                 user.move(keyCode);
             });
+            socket.on('disconnect',()=>{
+                if(!user){
+                    return;
+                }
+                world.removeUser(user);
+                user = null;
+            });
         });
         setInterval(()=>{
             io.emit('update',Array.from(world.setUser));
