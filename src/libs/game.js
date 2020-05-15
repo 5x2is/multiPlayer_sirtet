@@ -8,8 +8,8 @@ module.exports = class Game{
         io.on('connection',(socket)=>{
             let user = null;
             socket.on('enter-the-game',()=>{
-                console.log('enter: '+socket.id);
-                user = world.addUser();
+                console.log('new user'+socket.id);
+                user = world.addUser(socket.id);
             });
             socket.on('move',(keyCode)=>{
                 //console.log('move:'+socket.id);

@@ -88,12 +88,12 @@ module.exports = {
         'lines-between-class-members': 'off',
         'max-classes-per-file': 'error',
         'max-depth': 'error',
-        'max-len': 'error',
+        'max-len': 'off',
         'max-lines': 'error',
         'max-lines-per-function': 'error',
         'max-nested-callbacks': 'error',
         'max-params': 'error',
-        'max-statements': 'error',
+        'max-statements': 'off',
         'max-statements-per-line': 'error',
         'multiline-comment-style': 'error',
         'multiline-ternary': 'error',
@@ -224,7 +224,7 @@ module.exports = {
         'prefer-rest-params': 'error',
         'prefer-spread': 'error',
         'prefer-template': 'off',
-        'quote-props': 'error',
+        'quote-props': 'off',
         'quotes': [
             'error',
             'single'
