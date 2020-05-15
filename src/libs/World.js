@@ -7,8 +7,8 @@ module.exports = class World{
         this.io = io;
         this.setUser = new Set();//ユーザリスト
     }
-    addUser(){
-        const user = new User();
+    addUser(id){
+        const user = new User(id);
         this.setUser.add(user);
 
         return user;
@@ -25,7 +25,10 @@ module.exports = class World{
         for(const user of this.setUser){
             for(const block of user.setBlock){
                 if(block.stat === 'ready'){
-                    fieldData[block.fX][block.fY] = 1;
+                    fieldData[block.fX][block.fY] = {
+                        color: 'rgb(0,255,0)',//block.colorを代入する issue-38
+                        id: user.id
+                    };
                 }
             }
         }

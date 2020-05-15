@@ -1,8 +1,9 @@
 'use strict';
 const Block = require('./Block.js');
 module.exports = class User{
-    constructor(){
+    constructor(id){
         this.setBlock = new Set();
+        this.id = id;
         this.addBlock();
     }
     addBlock(){
