@@ -20,4 +20,11 @@ module.exports = class User{
             }
         }
     }
+    stopDrop(){
+        for(const block of this.setBlock){
+            if(block.stat === 'ready'){
+                block.stopDrop();
+            }
+        }
+    }
 };

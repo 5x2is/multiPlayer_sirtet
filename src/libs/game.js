@@ -20,9 +20,11 @@ module.exports = class Game{
                 user.moveBlock(keyCode);
             });
             socket.on('disconnect',()=>{
+                console.log('disconnect');
                 if(!user){
                     return;
                 }
+                user.stopDrop();
                 world.removeUser(user);
                 user = null;
             });
