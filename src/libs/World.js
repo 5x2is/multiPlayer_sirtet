@@ -1,5 +1,7 @@
 'use strict';
 const User = require('./User.js');
+const GameSetting = require('./GameSetting.js');
+
 module.exports = class World{
     constructor(io){
         this.io = io;
@@ -13,6 +15,19 @@ module.exports = class World{
     }
     removeUser(user){
         this.setUser.delete(user);
+    }
+    createFieldData(){
+        const fieldData = new Array(GameSetting.FIELD_WIDTH);
+        for(let fX=0; fX<GameSetting.FIELD_WIDTH; fX++){
+            const fieldColumn = new Array(GameSetting.FIELD_HEIGHT);
+            fieldData[fX] = fieldColumn;
+        }
+        for(const user of this.setUser){
+            fieldData[user.fX][user.fY] = 1;
+        }
+        //console.log(fieldData);
+
+        return fieldData;
     }
 };
 

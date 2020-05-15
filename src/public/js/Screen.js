@@ -1,13 +1,14 @@
 'use strict';
 class Screen{
-    constructor(socket, canvas){
+    constructor(socket,canvas){
         this.socket = socket;
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
         this.canvas.width = SharedSettings.FIELD_WIDTH;
         this.canvas.height = SharedSettings.FIELD_HEIGHT;
-        this.initSocket();
+        this.canvas.style.backgroundColor = 'gray';
 
+        this.initSocket();
     }
     initSocket(){
         this.socket.on('connect',()=>{
@@ -25,10 +26,14 @@ class Screen{
 
             return;
         }
-        fieldDat.forEach((position)=>{
-            const {fX,fY} = position;
-            this.context.fillStyle = 'rgb(0,255,0)';
-            this.context.fillRect(fX*20,fY*20,20,20);
-        });
+        console.log(fieldDat);
+        for(let fX=0; fX<fieldDat.length; fX++){
+            for(let fY=0; fY<fieldDat[fX].length; fY++){
+                if(fieldDat[fX][fY] === 1){
+                    this.context.fillStyle = 'rgb(0,255,0)';
+                    this.context.fillRect(fX*20,fY*20,20,20);
+                }
+            }
+        }
     }
 }
