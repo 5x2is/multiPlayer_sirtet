@@ -13,11 +13,14 @@ module.exports = class Game{
                 io.emit('setting',GameSetting.CLIENT_SETTING);
             });
             socket.on('move',(keyCode)=>{
-                //console.log('move:'+socket.id);
                 if(!user){
                     return;
                 }
-                user.moveBlock(keyCode);
+                if(keyCode === 65|| keyCode === 83){
+                    user.rotateBlock(keyCode);
+                }else{
+                    user.moveBlock(keyCode);
+                }
             });
             socket.on('disconnect',()=>{
                 console.log('disconnect');

@@ -10,10 +10,13 @@ module.exports = class GameSetting{
         return 30;//frame per sec
     }
     static get FIELD_WIDTH(){
-        return 25;
+        return 16;
     }
     static get FIELD_HEIGHT(){
         return 25;
+    }
+    static get START_POS(){
+        return Math.floor(this.FIELD_WIDTH/2)-1;
     }
     static get CELL_SIZE(){
         return 20;

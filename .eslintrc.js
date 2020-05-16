@@ -90,7 +90,7 @@ module.exports = {
         'max-depth': 'error',
         'max-len': 'off',
         'max-lines': 'error',
-        'max-lines-per-function': 'error',
+        'max-lines-per-function': 'off',
         'max-nested-callbacks': 'error',
         'max-params': 'error',
         'max-statements': 'off',
@@ -242,7 +242,7 @@ module.exports = {
             'last'
         ],
         'sort-imports': 'error',
-        'sort-keys': 'error',
+        'sort-keys': 'off',
         'sort-vars': 'error',
         'space-before-blocks': 'off',
         'space-before-function-paren': 'off',

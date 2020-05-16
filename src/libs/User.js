@@ -21,6 +21,13 @@ module.exports = class User{
             }
         }
     }
+    rotateBlock(key){
+        for(const block of this.setBlock){
+            if(block.stat === 'ready'){
+                block.rotate(key);
+            }
+        }
+    }
     stopDrop(){
         for(const block of this.setBlock){
             if(block.stat === 'ready'){

@@ -27,7 +27,7 @@ module.exports = class World{
                 if(block.stat === 'ready'){
                     for(let cell=0; cell<4; cell++){
                         fieldData[block.fX + block.shape[cell].x][block.fY + block.shape[cell].y] = {
-                            color: 'rgb(0,255,0)',//block.colorを代入する issue-38
+                            color: block.color,
                             id: user.id
                         };
                     }
