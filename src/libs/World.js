@@ -25,14 +25,15 @@ module.exports = class World{
         for(const user of this.setUser){
             for(const block of user.setBlock){
                 if(block.stat === 'ready'){
-                    fieldData[block.fX][block.fY] = {
-                        color: 'rgb(0,255,0)',//block.colorを代入する issue-38
-                        id: user.id
-                    };
+                    for(let cell=0; cell<4; cell++){
+                        fieldData[block.fX + block.shape[cell].x][block.fY + block.shape[cell].y] = {
+                            color: 'rgb(0,255,0)',//block.colorを代入する issue-38
+                            id: user.id
+                        };
+                    }
                 }
             }
         }
-        //console.log(fieldData);
 
         return fieldData;
     }
