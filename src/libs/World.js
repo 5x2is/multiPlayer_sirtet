@@ -25,13 +25,14 @@ module.exports = class World{
         for(let fX=0; fX<GameSetting.FIELD_WIDTH+2; fX++){
             fieldData[fX] = new Array(GameSetting.FIELD_HEIGHT+3);
         }
-        for(let fY = 1; fY<GameSetting.FIELD_HEIGHT+3; fY++){
+        for(let fY = 0; fY<GameSetting.FIELD_HEIGHT+3; fY++){
             fieldData[0][fY] = wallData;
             fieldData[GameSetting.FIELD_WIDTH+1][fY] = wallData;
         }
         for(let fX = 1; fX<GameSetting.FIELD_WIDTH+1; fX++){
-            fieldData[fX][GameSetting.FIELD_HEIGHT+1] = wallData;
+            fieldData[fX][GameSetting.FIELD_HEIGHT+2] = wallData;
             if(fX <= (GameSetting.FIELD_WIDTH/2)-3 || fX > (GameSetting.FIELD_WIDTH/2)+3){
+                fieldData[fX][0] = wallData;
                 fieldData[fX][1] = wallData;
             }
         }

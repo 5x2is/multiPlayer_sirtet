@@ -16,14 +16,14 @@ module.exports = class GameSetting{
         return 25;
     }
     static get START_POS(){
-        return Math.floor(this.FIELD_WIDTH/2)-1;
+        return Math.floor(this.FIELD_WIDTH/2);
     }
     static get CELL_SIZE(){
         return 20;
     }
     static get CLIENT_SETTING(){
         return {
-            FIELD_HEIGHT: (this.FIELD_HEIGHT+2)*this.CELL_SIZE,
+            FIELD_HEIGHT: (this.FIELD_HEIGHT+3)*this.CELL_SIZE,
             FIELD_WIDTH: (this.FIELD_WIDTH+2)*this.CELL_SIZE
         };
     }
