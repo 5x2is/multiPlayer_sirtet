@@ -23,8 +23,8 @@ module.exports = class GameSetting{
     }
     static get CLIENT_SETTING(){
         return {
-            FIELD_HEIGHT: this.FIELD_HEIGHT*this.CELL_SIZE,
-            FIELD_WIDTH: this.FIELD_WIDTH*this.CELL_SIZE
+            FIELD_HEIGHT: (this.FIELD_HEIGHT+2)*this.CELL_SIZE,
+            FIELD_WIDTH: (this.FIELD_WIDTH+2)*this.CELL_SIZE
         };
     }
     static get DROP_SPEED(){
