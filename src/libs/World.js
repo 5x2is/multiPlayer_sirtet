@@ -6,6 +6,7 @@ module.exports = class World{
     constructor(io){
         this.io = io;
         this.setUser = new Set();//ユーザリスト
+        this.fixedBlock = this.initFixedBlock();
     }
     addUser(id){
         const user = new User(id,this);
@@ -39,18 +40,44 @@ module.exports = class World{
 
         return fieldData;
     }
+    initFixedBlock(){
+        const fixedBlock = new Array(GameSetting.FIELD_WIDTH+2);
+        for(let fX=0; fX<GameSetting.FIELD_WIDTH+2; fX++){
+            fixedBlock[fX] = new Array(GameSetting.FIELD_HEIGHT+3);
+        }
+
+        return fixedBlock;
+    }
+    addFixedBlock(block){
+        for(const cell of block.shape){
+            this.fixedBlock[block.fX + cell.x][block.fY + cell.y] = {
+                type:'fixed',
+                color:block.color
+            };
+        }
+    }
     createFieldData(){
         const fieldData = this.initField();
         for(const user of this.setUser){
             for(const block of user.setBlock){
                 if(block.stat === 'ready'){
-                    for(let cell=0; cell<4; cell++){
-                        fieldData[block.fX + block.shape[cell].x][block.fY + block.shape[cell].y] = {
+                    for(const cell of block.shape){
+                        fieldData[block.fX + cell.x][block.fY + cell.y] = {
                             type:'block',
                             color: block.color,
                             id: user.id
                         };
                     }
+                }
+            }
+        }
+        for(let fX = 0; fX<this.fixedBlock.length; fX++){
+            for(let fY = 0; fY<this.fixedBlock[fX].length; fY++){
+                if(this.fixedBlock[fX][fY]){
+                    fieldData[fX][fY] = {
+                        type:'fixed',
+                        color:this.fixedBlock[fX][fY].color
+                    };
                 }
             }
         }

@@ -2,42 +2,41 @@
 const Block = require('./Block.js');
 module.exports = class User{
     constructor(id,worldClass){
-        this.setBlock = new Set();
+        this.setBlock = [];
         this.id = id;
         this.world = worldClass;
         this.blockBag = this.initBlockBag();
-        this.addBlock();
+        this.init();
+    }
+    init(){
+        for(let i = 0; i<4; i++){
+            this.addBlock();
+        }
+        this.setBlock[0].start();
     }
     addBlock(){
-        const block = new Block(this.selectBlock(),this.world);
-        this.setBlock.add(block);
+        const block = new Block(this.selectBlock(),this.world,this);
+        this.setBlock.push(block);
     }
-    removeBlock(block){
-        this.setBlock.delete(block);
+    removeBlock(){
+        this.setBlock.shift();
+    }
+    nextBlock(){
+        this.addBlock();
+        this.removeBlock();
+        this.setBlock[0].start();
     }
     moveBlock(key){
-        for(const block of this.setBlock){
-            if(block.stat === 'ready'){
-                block.move(key);
-            }
-        }
+        this.setBlock[0].move(key);
     }
     rotateBlock(key){
-        for(const block of this.setBlock){
-            if(block.stat === 'ready'){
-                block.rotate(key);
-            }
-        }
+        this.setBlock[0].rotate(key);
     }
     stopDrop(){
-        for(const block of this.setBlock){
-            if(block.stat === 'ready'){
-                block.stopDrop();
-            }
-        }
+        this.setBlock[0].stopDrop();
     }
     selectBlock(){
-        if(this.blockBag.lenght === 0){
+        if(this.blockBag.length === 0){
             this.blockBag = this.initBlockBag();
         }
         const rand = Math.floor(Math.random()*this.blockBag.length);
