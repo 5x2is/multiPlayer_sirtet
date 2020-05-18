@@ -1,16 +1,21 @@
 'use strict';
 const GameSetting = require('./GameSetting.js');
 module.exports = class Block{
-    constructor(blockID,worldClass){
+    constructor(blockID,worldClass,userClass){
         this.data = this.blockData(blockID);
         this.world = worldClass;
+        this.user = userClass;
         this.fX = this.data.initialPos.x;
         this.fY = this.data.initialPos.y;
         this.color = this.data.color;
         this.blockID = blockID;
         this.angle= 0;
         this.shape = this.setShape(this.angle);
-        this.stat= 'ready';//nextBlockのときはnext1,next2,next3 holdのときはholdが入る。
+        this.stat= 'next';//nextBlockのときはnext1,next2,next3 holdのときはholdが入る。
+        this.dropInterval = 0;
+    }
+    start(){
+        this.stat = 'ready';
         this.dropInterval = setInterval(this.drop.bind(this,this),GameSetting.DROP_SPEED);
     }
     move(key){
@@ -30,6 +35,8 @@ module.exports = class Block{
             case 40:
                 if(this.world.collisionCheck(this.nextShape(this.fX,this.fY+1,this.angle))){
                     this.fY++;
+                }else{
+                    this.nextBlock();
                 }
                 break;
             default:
@@ -39,7 +46,14 @@ module.exports = class Block{
     drop(){
         if(this.world.collisionCheck(this.nextShape(this.fX,this.fY+1,this.angle))){
             this.fY++;
+        }else{
+            this.nextBlock();
         }
+    }
+    nextBlock(){
+        this.world.addFixedBlock(this);
+        this.stopDrop();
+        this.user.nextBlock();
     }
     stopDrop(){
         clearInterval(this.dropInterval);
@@ -140,7 +154,7 @@ module.exports = class Block{
                     [{x:0,y:-1},{x:-1,y:0},{x:0,y:0},{x:-1,y:1}]
                 ],
                 color:'rgb(0,255,0)',
-                initialPos:{x:GameSetting.START_POS-1,y:1}
+                initialPos:{x:GameSetting.START_POS,y:1}
             },
             Z:{
                 shape:[
