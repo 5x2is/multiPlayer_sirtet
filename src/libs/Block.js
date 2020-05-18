@@ -1,57 +1,84 @@
 'use strict';
 const GameSetting = require('./GameSetting.js');
 module.exports = class Block{
-    constructor(blockID){
+    constructor(blockID,worldClass){
         this.data = this.blockData(blockID);
+        this.world = worldClass;
         this.fX = this.data.initialPos.x;
         this.fY = this.data.initialPos.y;
         this.color = this.data.color;
         this.blockID = blockID;
         this.angle= 0;
-        this.shape = this.setShape();
+        this.shape = this.setShape(this.angle);
         this.stat= 'ready';//nextBlockのときはnext1,next2,next3 holdのときはholdが入る。
         this.dropInterval = setInterval(this.drop.bind(this,this),GameSetting.DROP_SPEED);
     }
     move(key){
         switch (key){
             case 39:
-                this.fX++;
+                if(this.world.collisionCheck(this.nextShape(this.fX+1,this.fY,this.angle))){
+                    this.fX++;
+                }
                 break;
             case 37:
-                this.fX--;
+                if(this.world.collisionCheck(this.nextShape(this.fX-1,this.fY,this.angle))){
+                    this.fX--;
+                }
                 break;
             case 38:
-                this.fY--;
                 break;
             case 40:
-                this.fY++;
+                if(this.world.collisionCheck(this.nextShape(this.fX,this.fY+1,this.angle))){
+                    this.fY++;
+                }
                 break;
             default:
                 break;
         }
     }
     drop(){
-        this.fY++;
+        if(this.world.collisionCheck(this.nextShape(this.fX,this.fY+1,this.angle))){
+            this.fY++;
+        }
     }
     stopDrop(){
         clearInterval(this.dropInterval);
     }
-    setShape(){
-        return this.data.shape[this.angle];
+    setShape(angle){
+        return this.data.shape[angle];
     }
     rotate(direction){
         if(direction === 83){ //右回転
-            this.angle++;
-            if(this.angle === 4){
-                this.angle = 0;
+            let nextAngle = this.angle + 1;
+            if(nextAngle === 4){
+                nextAngle = 0;
+            }
+            if(this.world.collisionCheck(this.nextShape(this.fX,this.fY,nextAngle))){
+                this.angle = nextAngle;
             }
         }else if(direction === 65){ //左回転
-            this.angle--;
-            if(this.angle === -1){
-                this.angle = 3;
+            let nextAngle = this.angle - 1;
+            if(nextAngle === -1){
+                nextAngle = 3;
+            }
+            if(this.world.collisionCheck(this.nextShape(this.fX,this.fY,nextAngle))){
+                this.angle = nextAngle;
             }
         }
-        this.shape = this.setShape();
+        this.shape = this.setShape(this.angle);
+    }
+    nextShape(fX,fY,angle){
+        const nextFX = fX;
+        const nextFY = fY;
+        const nextAngle = angle;
+        const shape = this.setShape(nextAngle);
+        const blockField = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}];
+        for(let cell = 0; cell<4; cell++){
+            blockField[cell].x = shape[cell].x + nextFX;
+            blockField[cell].y = shape[cell].y + nextFY;
+        }
+
+        return blockField;
     }
     blockData(id){
         const data = {

@@ -1,14 +1,15 @@
 'use strict';
 const Block = require('./Block.js');
 module.exports = class User{
-    constructor(id){
+    constructor(id,worldClass){
         this.setBlock = new Set();
         this.id = id;
+        this.world = worldClass;
         this.blockBag = this.initBlockBag();
         this.addBlock();
     }
     addBlock(){
-        const block = new Block(this.selectBlock());
+        const block = new Block(this.selectBlock(),this.world);
         this.setBlock.add(block);
     }
     removeBlock(block){
