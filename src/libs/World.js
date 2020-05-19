@@ -86,10 +86,16 @@ module.exports = class World{
     }
     collisionCheck(shape){
         const fieldData = this.createFieldData();
-        //横にはみ出ていないか。
         for(const cell of shape){
+            //壁がないか。
             if(fieldData[cell.x][cell.y]){
                 if(fieldData[cell.x][cell.y].type === 'wall'){
+                    return false;
+                }
+            }
+            //fixedBlockがないか
+            if(this.fixedBlock[cell.x][cell.y]){
+                if(this.fixedBlock[cell.x][cell.y].type === 'fixed'){
                     return false;
                 }
             }
