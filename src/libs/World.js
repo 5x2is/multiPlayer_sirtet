@@ -39,7 +39,11 @@ module.exports = class World{
         //上下の壁
         for(let fX = 1; fX<GameSetting.FIELD_WIDTH+1; fX++){
             fieldData[fX][GameSetting.FIELD_HEIGHT+2] = wallData;
-            if(fX <= (GameSetting.FIELD_WIDTH/2)-4 || fX > (GameSetting.FIELD_WIDTH/2)+4){
+            if(fX <= (GameSetting.FIELD_WIDTH/2)-4 || fX > (GameSetting.FIELD_WIDTH/2)+5){
+                fieldData[fX][0] = wallData;
+                fieldData[fX][1] = wallData;
+            }
+            if(fX === Math.floor(GameSetting.FIELD_WIDTH/2)+1){
                 fieldData[fX][0] = wallData;
                 fieldData[fX][1] = wallData;
             }
