@@ -6,7 +6,7 @@ module.exports = class Block{
         this.world = worldClass;
         this.user = userClass;
         if(this.user.userNo === 0){
-            this.fX = this.data.initialPos.x-2;
+            this.fX = this.data.initialPos.x-3;
         }else{
             this.fX = this.data.initialPos.x+2;
         }
