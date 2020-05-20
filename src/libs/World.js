@@ -84,19 +84,29 @@ module.exports = class World{
 
         return fieldData;
     }
-    collisionCheck(shape){
+    collisionCheck(shape,userId){
         const fieldData = this.createFieldData();
         for(const cell of shape){
             //壁がないか。
             if(fieldData[cell.x][cell.y]){
                 if(fieldData[cell.x][cell.y].type === 'wall'){
-                    return false;
+                    return 'fixed';
                 }
             }
             //fixedBlockがないか
             if(this.fixedBlock[cell.x][cell.y]){
                 if(this.fixedBlock[cell.x][cell.y].type === 'fixed'){
-                    return false;
+                    return 'fixed';
+                }
+            }
+            //別のブロックがないか
+            for(const user of this.setUser){
+                if(user.id !== userId){
+                    for(const otherCell of user.setBlock[0].shape){
+                        if(otherCell.x+user.setBlock[0].fX === cell.x && otherCell.y+user.setBlock[0].fY === cell.y){
+                            return 'block';
+                        }
+                    }
                 }
             }
         }
