@@ -5,8 +5,13 @@ module.exports = class Block{
         this.data = this.blockData(blockID);
         this.world = worldClass;
         this.user = userClass;
-        this.fX = this.data.initialPos.x;
+        if(this.user.userNo === 0){
+            this.fX = this.data.initialPos.x-2;
+        }else{
+            this.fX = this.data.initialPos.x+2;
+        }
         this.fY = this.data.initialPos.y;
+
         this.color = this.data.color;
         this.blockID = blockID;
         this.angle= 0;
@@ -19,36 +24,45 @@ module.exports = class Block{
         this.dropInterval = setInterval(this.drop.bind(this,this),GameSetting.DROP_SPEED);
     }
     move(key){
+        let collision = null;
         switch (key){
             case 39:
-                if(this.world.collisionCheck(this.nextShape(this.fX+1,this.fY,this.angle))){
-                    this.fX++;
+                collision = this.collisionCheck(this.fX+1,this.fY,this.angle);
+                if(collision === 'fixed' || collision === 'block'){
+                    break;
                 }
+                this.fX++;
                 break;
             case 37:
-                if(this.world.collisionCheck(this.nextShape(this.fX-1,this.fY,this.angle))){
-                    this.fX--;
+                collision = this.collisionCheck(this.fX-1,this.fY,this.angle);
+                if(collision === 'fixed' || collision === 'block'){
+                    break;
                 }
+                this.fX--;
                 break;
             case 38:
                 break;
             case 40:
-                if(this.world.collisionCheck(this.nextShape(this.fX,this.fY+1,this.angle))){
-                    this.fY++;
-                }else{
+                collision = this.collisionCheck(this.fX,this.fY+1,this.angle);
+                if(collision === 'fixed'){
                     this.nextBlock();
+                }else if (collision === 'block'){
+                    break;
                 }
+                this.fY++;
                 break;
             default:
                 break;
         }
     }
     drop(){
-        if(this.world.collisionCheck(this.nextShape(this.fX,this.fY+1,this.angle))){
-            this.fY++;
-        }else{
+        const collision = this.collisionCheck(this.fX,this.fY+1,this.angle);
+        if(collision === 'fixed'){
             this.nextBlock();
+        }else if (collision === 'block'){
+            return;
         }
+        this.fY++;
     }
     nextBlock(){
         this.world.addFixedBlock(this);
@@ -62,26 +76,29 @@ module.exports = class Block{
         return this.data.shape[angle];
     }
     rotate(direction){
+        if(!(direction === 83 || direction === 65)){
+            return;
+        }
+        let nextAngle;
         if(direction === 83){ //右回転
-            let nextAngle = this.angle + 1;
+            nextAngle = this.angle + 1;
             if(nextAngle === 4){
                 nextAngle = 0;
             }
-            if(this.world.collisionCheck(this.nextShape(this.fX,this.fY,nextAngle))){
-                this.angle = nextAngle;
-            }
         }else if(direction === 65){ //左回転
-            let nextAngle = this.angle - 1;
+            nextAngle = this.angle - 1;
             if(nextAngle === -1){
                 nextAngle = 3;
             }
-            if(this.world.collisionCheck(this.nextShape(this.fX,this.fY,nextAngle))){
-                this.angle = nextAngle;
-            }
         }
+        const collision = this.collisionCheck(this.fX,this.fY,nextAngle);
+        if(collision === 'fixed' || collision === 'block'){
+            return;
+        }
+        this.angle = nextAngle;
         this.shape = this.setShape(this.angle);
     }
-    nextShape(fX,fY,angle){
+    collisionCheck(fX,fY,angle){
         const nextFX = fX;
         const nextFY = fY;
         const nextAngle = angle;
@@ -92,7 +109,7 @@ module.exports = class Block{
             blockField[cell].y = shape[cell].y + nextFY;
         }
 
-        return blockField;
+        return this.world.collisionCheck(blockField,this.user.id);
     }
     blockData(id){
         const data = {

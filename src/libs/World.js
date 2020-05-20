@@ -7,9 +7,14 @@ module.exports = class World{
         this.io = io;
         this.setUser = new Set();//ユーザリスト
         this.fixedBlock = this.initFixedBlock();
+        this.userNo = -1;
     }
     addUser(id){
-        const user = new User(id,this);
+        if(this.userNo > 2){
+            return user;
+        }
+        this.userNo++;
+        const user = new User(id,this,this.userNo);
         this.setUser.add(user);
 
         return user;
@@ -26,13 +31,15 @@ module.exports = class World{
         for(let fX=0; fX<GameSetting.FIELD_WIDTH+2; fX++){
             fieldData[fX] = new Array(GameSetting.FIELD_HEIGHT+3);
         }
+        //縦の壁
         for(let fY = 0; fY<GameSetting.FIELD_HEIGHT+3; fY++){
             fieldData[0][fY] = wallData;
             fieldData[GameSetting.FIELD_WIDTH+1][fY] = wallData;
         }
+        //上下の壁
         for(let fX = 1; fX<GameSetting.FIELD_WIDTH+1; fX++){
             fieldData[fX][GameSetting.FIELD_HEIGHT+2] = wallData;
-            if(fX <= (GameSetting.FIELD_WIDTH/2)-3 || fX > (GameSetting.FIELD_WIDTH/2)+3){
+            if(fX <= (GameSetting.FIELD_WIDTH/2)-4 || fX > (GameSetting.FIELD_WIDTH/2)+4){
                 fieldData[fX][0] = wallData;
                 fieldData[fX][1] = wallData;
             }
@@ -84,19 +91,29 @@ module.exports = class World{
 
         return fieldData;
     }
-    collisionCheck(shape){
+    collisionCheck(shape,userId){
         const fieldData = this.createFieldData();
         for(const cell of shape){
             //壁がないか。
             if(fieldData[cell.x][cell.y]){
                 if(fieldData[cell.x][cell.y].type === 'wall'){
-                    return false;
+                    return 'fixed';
                 }
             }
             //fixedBlockがないか
             if(this.fixedBlock[cell.x][cell.y]){
                 if(this.fixedBlock[cell.x][cell.y].type === 'fixed'){
-                    return false;
+                    return 'fixed';
+                }
+            }
+            //別のブロックがないか
+            for(const user of this.setUser){
+                if(user.id !== userId){
+                    for(const otherCell of user.setBlock[0].shape){
+                        if(otherCell.x+user.setBlock[0].fX === cell.x && otherCell.y+user.setBlock[0].fY === cell.y){
+                            return 'block';
+                        }
+                    }
                 }
             }
         }
