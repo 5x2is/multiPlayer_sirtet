@@ -1,9 +1,10 @@
 'use strict';
 const Block = require('./Block.js');
 module.exports = class User{
-    constructor(id,worldClass){
+    constructor(id,worldClass,userNo){
         this.setBlock = [];
         this.id = id;
+        this.userNo = userNo;
         this.world = worldClass;
         this.blockBag = this.initBlockBag();
         this.init();

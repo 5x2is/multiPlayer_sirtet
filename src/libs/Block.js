@@ -5,8 +5,13 @@ module.exports = class Block{
         this.data = this.blockData(blockID);
         this.world = worldClass;
         this.user = userClass;
-        this.fX = this.data.initialPos.x;
+        if(this.user.userNo === 0){
+            this.fX = this.data.initialPos.x-2;
+        }else{
+            this.fX = this.data.initialPos.x+2;
+        }
         this.fY = this.data.initialPos.y;
+
         this.color = this.data.color;
         this.blockID = blockID;
         this.angle= 0;
