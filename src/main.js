@@ -1,5 +1,5 @@
 'use strict';
-console.log('ver1.0.0');
+console.log('ver1.0.1');
 
 //port関係
 const express = require('express');
