@@ -51,20 +51,36 @@ module.exports = class World{
 
         return fieldData;
     }
-    initFixedBlock(){
-        const fixedBlock = new Array(GameSetting.FIELD_WIDTH+2);
-        for(let fX=0; fX<GameSetting.FIELD_WIDTH+2; fX++){
-            fixedBlock[fX] = new Array(GameSetting.FIELD_HEIGHT+3);
+    initFixedBlock(){ //ライン消しの都合上、fixedBlockはy,xの順にする
+        const fixedBlock = new Array(GameSetting.FIELD_HEIGHT+3);
+        for(let fY=0; fY<GameSetting.FIELD_HEIGHT+3; fY++){
+            fixedBlock[fY] = new Array(GameSetting.FIELD_WIDTH+2);
         }
 
         return fixedBlock;
     }
     addFixedBlock(block){
         for(const cell of block.shape){
-            this.fixedBlock[block.fX + cell.x][block.fY + cell.y] = {
+            this.fixedBlock[block.fY + cell.y][block.fX + cell.x] = {
                 type:'fixed',
                 color:block.color
             };
+        }
+        //ライン判定
+        for(let fY = 2; fY<GameSetting.FIELD_HEIGHT+2; fY++){
+            let line = true;
+            for(let fX = 1; fX<GameSetting.FIELD_WIDTH+1; fX++){
+                if(!this.fixedBlock[fY][fX]){
+                    line = false;
+                    break;
+                }
+            }
+            if(line === true){
+                //ラインを消す
+                //fYを消して、先頭に要素を追加する
+                this.fixedBlock.splice(fY,1);
+                this.fixedBlock.unshift(new Array(GameSetting.FIELD_WIDTH+2));
+            }
         }
     }
     createFieldData(){
@@ -82,12 +98,12 @@ module.exports = class World{
                 }
             }
         }
-        for(let fX = 0; fX<this.fixedBlock.length; fX++){
-            for(let fY = 0; fY<this.fixedBlock[fX].length; fY++){
-                if(this.fixedBlock[fX][fY]){
+        for(let fY = 0; fY<this.fixedBlock.length; fY++){
+            for(let fX = 0; fX<this.fixedBlock[fY].length; fX++){
+                if(this.fixedBlock[fY][fX]){
                     fieldData[fX][fY] = {
                         type:'fixed',
-                        color:this.fixedBlock[fX][fY].color
+                        color:this.fixedBlock[fY][fX].color
                     };
                 }
             }
@@ -105,8 +121,8 @@ module.exports = class World{
                 }
             }
             //fixedBlockがないか
-            if(this.fixedBlock[cell.x][cell.y]){
-                if(this.fixedBlock[cell.x][cell.y].type === 'fixed'){
+            if(this.fixedBlock[cell.y][cell.x]){
+                if(this.fixedBlock[cell.y][cell.x].type === 'fixed'){
                     return 'fixed';
                 }
             }
