@@ -13,6 +13,7 @@ const io = require('socket.io').listen(app.listen(PORT));
 const Game = require('./libs/game.js');
 
 //PORT番ポートで待ちうける
+console.log(PORT);
 app.listen(PORT,()=>{
 	console.log('server listening port:'+PORT);
 });
