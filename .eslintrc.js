@@ -213,7 +213,7 @@ module.exports = {
         'padding-line-between-statements': 'error',
         'prefer-arrow-callback': 'error',
         'prefer-const': 'error',
-        'prefer-destructuring': 'error',
+        'prefer-destructuring': 'off',
         'prefer-exponentiation-operator': 'error',
         'prefer-named-capture-group': 'error',
         'prefer-numeric-literals': 'error',

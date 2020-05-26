@@ -3,11 +3,16 @@ const User = require('./User.js');
 const GameSetting = require('./GameSetting.js');
 
 module.exports = class World{
-    constructor(io){
+    constructor(io,id){
+        console.log('create new room '+id);
         this.io = io;
+        this.worldId = id;
         this.setUser = new Set();//ユーザリスト
         this.fixedBlock = this.initFixedBlock();
         this.userNo = -1;
+        this.update = setInterval(()=>{
+            io.to(this.worldId).emit('update',this.createFieldData());
+        },Math.floor(1000/GameSetting.FRAMERATE));
     }
     addUser(id){
         if(this.userNo > 2){

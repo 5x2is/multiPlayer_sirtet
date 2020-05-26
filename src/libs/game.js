@@ -3,13 +3,43 @@ const World = require('./World.js');
 const GameSetting = require('./GameSetting.js');
 
 module.exports = class Game{
+    constructor(){
+        this.rooms = new Array(5);
+        this.init();
+    }
+    init(){
+        for(let i = 0; i<this.rooms.length; i++){
+            this.rooms[i] = [null,null,null];
+        }
+    }
     start(io){
-        const world =new World(io);
         io.on('connection',(socket)=>{
             let user = null;
+            let roomId = null;
+            let room = null;
             socket.on('enter-the-game',()=>{
-                console.log('new user'+socket.id);
-                user = world.addUser(socket.id);
+                for(let i = 0; i<this.rooms.length; i++){
+                    if(this.rooms[i][0] === null){
+                        if(this.rooms[i][2] === null){
+                            this.rooms[i][2] = new World(io,i);
+                        }
+                        this.rooms[i][0] = socket.id;
+                        roomId = i;
+                        break;
+                    }else if(this.rooms[i][1] === null){
+                        if(this.rooms[i][2] === null){
+                            this.rooms[i][2] = new World(io,i);
+                        }
+                        this.rooms[i][1] = socket.id;
+                        roomId = i;
+                        break;
+                    }
+                }
+                room = this.rooms[roomId][2];
+                socket.join(roomId);
+                console.log('new user: '+socket.id);
+                console.log('room: '+roomId);
+                user = room.addUser(socket.id);
                 io.emit('setting',GameSetting.CLIENT_SETTING);
             });
             socket.on('move',(keyCode)=>{
@@ -28,12 +58,9 @@ module.exports = class Game{
                     return;
                 }
                 user.stopDrop();
-                world.removeUser(user);
+                room.removeUser(user);
                 user = null;
             });
         });
-        setInterval(()=>{
-            io.emit('update',world.createFieldData());
-        },1000/GameSetting.FRAMERATE);
     }
 };
