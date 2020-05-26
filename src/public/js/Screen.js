@@ -6,7 +6,8 @@ class Screen{
         this.context = canvas.getContext('2d');
         this.canvas.width;
         this.canvas.height;
-        this.canvas.style.backgroundColor = 'white';
+        this.canvas.style.backgroundColor = 'rgb(255,200,255)';
+        this.setting;
 
         this.initSocket();
     }
@@ -15,16 +16,46 @@ class Screen{
             this.socket.emit('enter-the-game');
         });
         this.socket.on('setting',(setting)=>{
-            this.canvas.width = setting.FIELD_WIDTH;
-            this.canvas.height = setting.FIELD_HEIGHT;
+            this.setting = setting;
+            this.canvas.width = setting.FIELD_WIDTH + (2*ScreenSetting.SIDE_MARGIN);
+            this.canvas.height = setting.FIELD_HEIGHT + ScreenSetting.BOTTOM_MARGIN;
+            this.context.strokeStyle = 'rgb(0,0,0)';
+            this.context.strokeRect(10,60,100,60);
+            this.context.strokeRect(10,200,100,250);
+            this.context.strokeRect(ScreenSetting.SIDE_MARGIN+setting.FIELD_WIDTH+10,60,100,60);
+            this.context.strokeRect(ScreenSetting.SIDE_MARGIN+setting.FIELD_WIDTH+10,200,100,250);
         });
         this.socket.on('update',(fieldDat)=>{
             this.render(fieldDat);
         });
+        this.socket.on('next',(nextDat)=>{
+            let startX;
+            console.log('next');
+            if(nextDat.id === this.socket.id){
+                console.log('me');
+                startX = ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+60;
+                this.context.clearRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+15,205,90,240);
+            }else{
+                console.log('you');
+                startX = 60;
+                this.context.clearRect(15,205,90,240);
+            }
+            let nextCount = 0;
+            for(let i = 0; i<nextDat.nextBlock.length; i++){
+                if(nextDat.nextBlock[i].stat === 'next'){
+                    const shape = blockShape.shape(nextDat.nextBlock[i].blockID);
+                    this.context.fillStyle = shape.color;
+                    for(const cell of shape.shape){
+                        this.context.fillRect(startX+(cell.x*20),(nextCount*60)+250+(cell.y*20),20,20);
+                    }
+                    nextCount++;
+                }
+            }
+        });
     }
     render(fieldDat){
         //全体をクリア
-        this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+        this.context.clearRect(ScreenSetting.SIDE_MARGIN,0,this.setting.FIELD_WIDTH,this.setting.FIELD_HEIGHT);
         if(!fieldDat.length){
             console.log('empty');
 
@@ -35,10 +66,10 @@ class Screen{
             fieldColumn.forEach((fieldCell,fY)=>{
                 if(fieldCell){
                     this.context.fillStyle = fieldCell.color;
-                    this.context.fillRect(fX*20,fY*20,20,20);
+                    this.context.fillRect(ScreenSetting.SIDE_MARGIN+fX*20,fY*20,20,20);
                     if(fieldCell.id === this.socket.id){
                         this.context.strokeStyle = 'rgb(255,0,0)';
-                        this.context.strokeRect(fX*20,fY*20,20,20);
+                        this.context.strokeRect(ScreenSetting.SIDE_MARGIN+fX*20,fY*20,20,20);
                     }
                 }
             });

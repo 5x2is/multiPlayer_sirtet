@@ -39,8 +39,8 @@ module.exports = class Game{
                 socket.join(roomId);
                 console.log('new user: '+socket.id);
                 console.log('room: '+roomId);
-                user = room.addUser(socket.id);
                 io.emit('setting',GameSetting.CLIENT_SETTING);
+                user = room.addUser(socket.id);
             });
             socket.on('move',(keyCode)=>{
                 if(!user){

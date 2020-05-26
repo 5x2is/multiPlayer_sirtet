@@ -145,5 +145,19 @@ module.exports = class World{
 
         return true;
     }
+    updateNext(setBlock,userId){
+        const blockId = [];
+        for(let i = 0; i<setBlock.length; i++){
+            blockId.push({
+                blockID:setBlock[i].blockID,
+                stat:setBlock[i].stat
+            });
+        }
+        const nextData = {
+            nextBlock: blockId,
+            id:userId
+        };
+        this.io.to(this.worldId).emit('next',nextData);
+    }
 };
 
