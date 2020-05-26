@@ -14,12 +14,10 @@ const path = require('path');
 const Game = require('./libs/game.js');
 
 //PORT番ポートで待ちうける
-console.log(PORT);
 server.listen(PORT,()=>{
 	console.log('server listening port:'+PORT);
 });
 
-console.log('line21');
 const game = new Game();
 game.start(io);
 
