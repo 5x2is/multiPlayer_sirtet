@@ -14,6 +14,7 @@ module.exports = class User{
             this.addBlock();
         }
         this.setBlock[0].start();
+        this.world.updateNext(this.setBlock,this.id);
     }
     addBlock(){
         const block = new Block(this.selectBlock(),this.world,this);
@@ -26,6 +27,7 @@ module.exports = class User{
         this.addBlock();
         this.removeBlock();
         this.setBlock[0].start();
+        this.world.updateNext(this.setBlock,this.id);
     }
     moveBlock(key){
         this.setBlock[0].move(key);
