@@ -41,6 +41,9 @@ module.exports = class Game{
                 console.log('room: '+roomId);
                 io.emit('setting',GameSetting.CLIENT_SETTING);
                 user = room.addUser(socket.id);
+                for(const usr of this.rooms[roomId][2].setUser){
+                    usr.updateNext();
+                }
             });
             socket.on('move',(keyCode)=>{
                 if(!user){
@@ -48,6 +51,8 @@ module.exports = class Game{
                 }
                 if(keyCode === 65|| keyCode === 83){
                     user.rotateBlock(keyCode);
+                }else if(keyCode === 68){
+                    user.hold();
                 }else{
                     user.moveBlock(keyCode);
                 }

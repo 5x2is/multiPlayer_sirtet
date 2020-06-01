@@ -30,14 +30,17 @@ class Screen{
         });
         this.socket.on('next',(nextDat)=>{
             let startX;
-            console.log('next');
+            console.log(this.socket.id);
+            console.log(nextDat.id);
             if(nextDat.id === this.socket.id){
                 console.log('me');
                 startX = ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+60;
+                this.context.clearRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+15,65,90,50);
                 this.context.clearRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+15,205,90,240);
             }else{
                 console.log('you');
                 startX = 60;
+                this.context.clearRect(15,65,90,50);
                 this.context.clearRect(15,205,90,240);
             }
             let nextCount = 0;
@@ -49,6 +52,13 @@ class Screen{
                         this.context.fillRect(startX+(cell.x*20),(nextCount*60)+250+(cell.y*20),20,20);
                     }
                     nextCount++;
+                }
+            }
+            if(nextDat.hold){
+                const shape = blockShape.shape(nextDat.hold);
+                this.context.fillStyle = shape.color;
+                for(const cell of shape.shape){
+                    this.context.fillRect(startX+(cell.x*20),90+(cell.y*20),20,20);
                 }
             }
         });
