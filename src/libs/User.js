@@ -7,6 +7,7 @@ module.exports = class User{
         this.userNo = userNo;
         this.world = worldClass;
         this.blockBag = this.initBlockBag();
+        this.holdBlock = null;
         this.init();
     }
     init(){
@@ -14,7 +15,10 @@ module.exports = class User{
             this.addBlock();
         }
         this.setBlock[0].start();
-        this.world.updateNext(this.setBlock,this.id);
+        this.updateNext();
+    }
+    updateNext(){
+        this.world.updateNext(this.setBlock,this.holdBlock,this.id);
     }
     addBlock(){
         const block = new Block(this.selectBlock(),this.world,this);
@@ -27,13 +31,30 @@ module.exports = class User{
         this.addBlock();
         this.removeBlock();
         this.setBlock[0].start();
-        this.world.updateNext(this.setBlock,this.id);
+        this.updateNext();
     }
     moveBlock(key){
         this.setBlock[0].move(key);
     }
     rotateBlock(key){
         this.setBlock[0].rotate(key);
+    }
+    hold(){
+        if(this.setBlock[0].holded){
+            return;
+        }
+        const tempBlock = this.setBlock[0];
+        if(this.holdBlock){
+            this.setBlock[0] = this.holdBlock;
+            this.setBlock[0].start();
+            this.holdBlock = tempBlock;
+            this.holdBlock.hold();
+            this.updateNext();
+        }else{
+            this.holdBlock = tempBlock;
+            this.holdBlock.hold();
+            this.nextBlock();
+        }
     }
     stopDrop(){
         this.setBlock[0].stopDrop();

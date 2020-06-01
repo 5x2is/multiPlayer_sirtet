@@ -7,7 +7,7 @@ class blockShape{
                 color:'rgb(102,255,255)'
             },
             O:{
-                shape:[{x:0,y:0},{x:0,y:1},{x:1,y:0},{x:1,y:1}],
+                shape:[{x:-1,y:-1},{x:-1,y:0},{x:0,y:-1},{x:0,y:0}],
                 color:'rgb(255,255,0)'
             },
             T:{

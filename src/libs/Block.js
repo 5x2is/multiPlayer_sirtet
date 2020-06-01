@@ -5,23 +5,32 @@ module.exports = class Block{
         this.data = this.blockData(blockID);
         this.world = worldClass;
         this.user = userClass;
+        this.fX = null;
+        this.fY = null;
+        this.color = this.data.color;
+        this.blockID = blockID;
+        this.angle= 0;
+        this.shape = this.setShape(this.angle);
+        this.stat= 'next';//nextBlockのときはnext1,next2,next3 holdのときはholdが入る。
+        this.dropInterval = null;
+        this.holded = false;//1回しかholdできなくする。
+    }
+    start(){
+        this.stat = 'ready';
         if(this.user.userNo === 0){
             this.fX = this.data.initialPos.x-3;
         }else{
             this.fX = this.data.initialPos.x+2;
         }
         this.fY = this.data.initialPos.y;
-
-        this.color = this.data.color;
-        this.blockID = blockID;
-        this.angle= 0;
-        this.shape = this.setShape(this.angle);
-        this.stat= 'next';//nextBlockのときはnext1,next2,next3 holdのときはholdが入る。
-        this.dropInterval = 0;
-    }
-    start(){
-        this.stat = 'ready';
         this.dropInterval = setInterval(this.drop.bind(this,this),GameSetting.DROP_SPEED);
+    }
+    hold(){
+        this.stat = 'hold';
+        this.holded = true;
+        if(this.dropInterval){
+            this.stopDrop();
+        }
     }
     move(key){
         let collision = null;

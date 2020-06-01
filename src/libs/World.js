@@ -145,7 +145,7 @@ module.exports = class World{
 
         return true;
     }
-    updateNext(setBlock,userId){
+    updateNext(setBlock,hold,userId){
         const blockId = [];
         for(let i = 0; i<setBlock.length; i++){
             blockId.push({
@@ -155,6 +155,7 @@ module.exports = class World{
         }
         const nextData = {
             nextBlock: blockId,
+            hold:hold && hold.blockID,
             id:userId
         };
         this.io.to(this.worldId).emit('next',nextData);
