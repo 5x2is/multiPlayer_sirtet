@@ -9,17 +9,12 @@ module.exports = class World{
         this.worldId = id;
         this.setUser = new Set();//ユーザリスト
         this.fixedBlock = this.initFixedBlock();
-        this.userNo = -1;
         this.update = setInterval(()=>{
             io.to(this.worldId).emit('update',this.createFieldData());
         },Math.floor(1000/GameSetting.FRAMERATE));
     }
-    addUser(id){
-        if(this.userNo > 2){
-            return user;
-        }
-        this.userNo++;
-        const user = new User(id,this,this.userNo);
+    addUser(id,idInRoom){
+        const user = new User(id,this,idInRoom);
         this.setUser.add(user);
 
         return user;
