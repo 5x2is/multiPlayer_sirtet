@@ -134,7 +134,7 @@ module.exports = class World{
         const fieldData = this.createFieldData();
         for(const cell of shape){
             //壁がないか。
-            if(fieldData[cell.x][cell.y]){
+            if(fieldData[cell.x] && fieldData[cell.x][cell.y]){
                 if(fieldData[cell.x][cell.y].type === 'wall'){
                     return 'fixed';
                 }
