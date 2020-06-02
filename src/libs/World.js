@@ -87,6 +87,20 @@ module.exports = class World{
                 this.fixedBlock.unshift(new Array(GameSetting.FIELD_WIDTH+2));
             }
         }
+        this.checkGameOver();
+    }
+    checkGameOver(){
+        for(let x = 5; x<14; x++){
+            for(let y = 0; y<2; y++){
+                if(this.fixedBlock[y][x]){
+                    this.restart();
+                }
+            }
+        }
+    }
+    restart(){
+        console.log('gameover');
+        this.fixedBlock = this.initFixedBlock();
     }
     createFieldData(){
         const fieldData = this.initField();
