@@ -39,7 +39,11 @@ module.exports = class Game{
                 socket.join(roomId);
                 console.log('new user: '+socket.id);
                 console.log('room: '+roomId);
-                io.emit('setting',GameSetting.CLIENT_SETTING);
+                const setting = {
+                    client:GameSetting.CLIENT_SETTING,
+                    roomId
+                };
+                io.to(socket.id).emit('setting',setting);
                 user = room.addUser(socket.id);
                 for(const usr of this.rooms[roomId][2].setUser){
                     usr.updateNext();

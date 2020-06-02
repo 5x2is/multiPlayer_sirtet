@@ -16,14 +16,18 @@ class Screen{
             this.socket.emit('enter-the-game');
         });
         this.socket.on('setting',(setting)=>{
-            this.setting = setting;
-            this.canvas.width = setting.FIELD_WIDTH + (2*ScreenSetting.SIDE_MARGIN);
-            this.canvas.height = setting.FIELD_HEIGHT + ScreenSetting.BOTTOM_MARGIN;
+            this.setting = setting.client;
+            this.roomId = setting.roomId;
+            this.canvas.width = this.setting.FIELD_WIDTH + (2*ScreenSetting.SIDE_MARGIN);
+            this.canvas.height = this.setting.FIELD_HEIGHT + ScreenSetting.BOTTOM_MARGIN;
             this.context.strokeStyle = 'rgb(0,0,0)';
             this.context.strokeRect(10,60,100,60);
             this.context.strokeRect(10,200,100,250);
-            this.context.strokeRect(ScreenSetting.SIDE_MARGIN+setting.FIELD_WIDTH+10,60,100,60);
-            this.context.strokeRect(ScreenSetting.SIDE_MARGIN+setting.FIELD_WIDTH+10,200,100,250);
+            this.context.strokeRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+10,60,100,60);
+            this.context.strokeRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+10,200,100,250);
+            this.context.font = '16pt Arial';
+            this.context.fillStyle = 'rgb(0,0,0)';
+            this.context.fillText('room:'+this.roomId,30,30);
         });
         this.socket.on('update',(fieldDat)=>{
             this.render(fieldDat);
