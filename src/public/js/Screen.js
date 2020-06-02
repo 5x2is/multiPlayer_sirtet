@@ -12,6 +12,14 @@ class Screen{
         this.initSocket();
     }
     initSocket(){
+        this.socket.on('timer',(time)=>{
+            const now = new Date();
+            const delay = now.getTime()-time;
+            this.context.clearRect(20,35,100,20);
+            this.context.font = '16pt Arial';
+            this.context.fillStyle = 'rgb(0,0,0)';
+            this.context.fillText('delay:'+delay,20,50);
+        });
         this.socket.on('connect',()=>{
             this.socket.emit('enter-the-game');
         });
@@ -64,7 +72,6 @@ class Screen{
             this.context.font = '16pt Arial';
             this.context.clearRect(startX-50,470,100,40);
             this.context.fillStyle = 'rgb(200,200,200)';
-            this.context.fillRect(startX-50,470,100,40);
             this.context.fillStyle = 'rgb(0,0,0)';
             this.context.fillText(nextDat.score,startX,500);
         });
