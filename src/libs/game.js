@@ -17,6 +17,7 @@ module.exports = class Game{
             let user = null;
             let roomId = null;
             let room = null;
+            let idInRoom = null;
             socket.on('enter-the-game',()=>{
                 for(let i = 0; i<this.rooms.length; i++){
                     if(this.rooms[i][0] === null){
@@ -24,6 +25,7 @@ module.exports = class Game{
                             this.rooms[i][2] = new World(io,i);
                         }
                         this.rooms[i][0] = socket.id;
+                        idInRoom = 0;
                         roomId = i;
                         break;
                     }else if(this.rooms[i][1] === null){
@@ -31,6 +33,7 @@ module.exports = class Game{
                             this.rooms[i][2] = new World(io,i);
                         }
                         this.rooms[i][1] = socket.id;
+                        idInRoom = 1;
                         roomId = i;
                         break;
                     }
@@ -44,7 +47,7 @@ module.exports = class Game{
                     roomId
                 };
                 io.to(socket.id).emit('setting',setting);
-                user = room.addUser(socket.id);
+                user = room.addUser(socket.id,idInRoom);
                 for(const usr of this.rooms[roomId][2].setUser){
                     usr.updateNext();
                 }
@@ -68,7 +71,7 @@ module.exports = class Game{
                 }
                 user.stopDrop();
                 room.removeUser(user);
-                user = null;
+                this.rooms[roomId][idInRoom] = null;
             });
         });
     }
