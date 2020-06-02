@@ -30,15 +30,11 @@ class Screen{
         });
         this.socket.on('next',(nextDat)=>{
             let startX;
-            console.log(this.socket.id);
-            console.log(nextDat.id);
             if(nextDat.id === this.socket.id){
-                console.log('me');
                 startX = ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+60;
                 this.context.clearRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+15,65,90,50);
                 this.context.clearRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+15,205,90,240);
             }else{
-                console.log('you');
                 startX = 60;
                 this.context.clearRect(15,65,90,50);
                 this.context.clearRect(15,205,90,240);
