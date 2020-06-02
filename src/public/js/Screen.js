@@ -57,6 +57,12 @@ class Screen{
                     this.context.fillRect(startX+(cell.x*20),90+(cell.y*20),20,20);
                 }
             }
+            this.context.font = '16pt Arial';
+            this.context.clearRect(startX-50,470,100,40);
+            this.context.fillStyle = 'rgb(200,200,200)';
+            this.context.fillRect(startX-50,470,100,40);
+            this.context.fillStyle = 'rgb(0,0,0)';
+            this.context.fillText(nextDat.score,startX,500);
         });
     }
     render(fieldDat){

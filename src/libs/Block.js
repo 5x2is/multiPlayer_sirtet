@@ -74,7 +74,8 @@ module.exports = class Block{
         this.fY++;
     }
     nextBlock(){
-        this.world.addFixedBlock(this);
+        const score = this.world.addFixedBlock(this);
+        this.user.score += score;
         this.stopDrop();
         this.user.nextBlock();
     }

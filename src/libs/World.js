@@ -65,6 +65,7 @@ module.exports = class World{
         return fixedBlock;
     }
     addFixedBlock(block){
+        let score = 0;
         for(const cell of block.shape){
             this.fixedBlock[block.fY + cell.y][block.fX + cell.x] = {
                 type:'fixed',
@@ -85,9 +86,13 @@ module.exports = class World{
                 //fYを消して、先頭に要素を追加する
                 this.fixedBlock.splice(fY,1);
                 this.fixedBlock.unshift(new Array(GameSetting.FIELD_WIDTH+2));
+                //得点の追加
+                score = 100+(score*2);
             }
         }
         this.checkGameOver();
+
+        return score;
     }
     checkGameOver(){
         for(let x = 5; x<14; x++){
@@ -159,7 +164,7 @@ module.exports = class World{
 
         return true;
     }
-    updateNext(setBlock,hold,userId){
+    updateNext(setBlock,hold,userId,score){
         const blockId = [];
         for(let i = 0; i<setBlock.length; i++){
             blockId.push({
@@ -170,7 +175,8 @@ module.exports = class World{
         const nextData = {
             nextBlock: blockId,
             hold:hold && hold.blockID,
-            id:userId
+            id:userId,
+            score
         };
         this.io.to(this.worldId).emit('next',nextData);
     }

@@ -8,6 +8,7 @@ module.exports = class User{
         this.world = worldClass;
         this.blockBag = this.initBlockBag();
         this.holdBlock = null;
+        this.score = 0;
         this.init();
     }
     init(){
@@ -18,7 +19,7 @@ module.exports = class User{
         this.updateNext();
     }
     updateNext(){
-        this.world.updateNext(this.setBlock,this.holdBlock,this.id);
+        this.world.updateNext(this.setBlock,this.holdBlock,this.id,this.score);
     }
     addBlock(){
         const block = new Block(this.selectBlock(),this.world,this);
