@@ -52,10 +52,11 @@ module.exports = class Game{
                     usr.updateNext();
                 }
             });
-            socket.on('move',(keyCode)=>{
+            socket.on('move',(dat)=>{
                 if(!user){
                     return;
                 }
+                const keyCode = dat.keyCode;
                 if(keyCode === 65|| keyCode === 83){
                     user.rotateBlock(keyCode);
                 }else if(keyCode === 68){
@@ -63,6 +64,7 @@ module.exports = class Game{
                 }else{
                     user.moveBlock(keyCode);
                 }
+                io.to(socket.id).emit('timer',dat.time);
             });
             socket.on('disconnect',()=>{
                 console.log('disconnect');
