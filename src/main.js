@@ -5,7 +5,7 @@ console.log('ver1.0.1');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8081;
 const io = require('socket.io').listen(server);
 //パス指定用モジュール
 const path = require('path');
