@@ -1,9 +1,11 @@
-charset "utf-8";
-body{
+#cont{
     display:flex;
-    justify-content:center;
 }
 #canvas_div{
-    display:block;
+}
+#description{
+    margin-left:10px;
+    height:100px;
+    width:120px;
 }
 
