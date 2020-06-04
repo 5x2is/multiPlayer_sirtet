@@ -63,6 +63,11 @@ module.exports = class Block{
         }
     }
     hardDrop(){
+        const ghost = this.world.getGhost(this.user);
+        this.fY += ghost[1];
+        if(ghost[2] === 'fixed'){
+            this.nextBlock();
+        }
     }
     drop(){
         const collision = this.collisionCheck(this.fX,this.fY+1,this.angle);
@@ -130,7 +135,7 @@ module.exports = class Block{
                     [{x:-2,y:1},{x:-1,y:1},{x:0,y:1},{x:1,y:1}],
                     [{x:-1,y:-1},{x:-1,y:0},{x:-1,y:1},{x:-1,y:2}]
                 ],
-                color:'rgb(102,255,255)',
+                color:'rgb(0,153,255)',
                 initialPos:{x:GameSetting.START_POS+1,y:1}
             },
             O:{
@@ -140,7 +145,7 @@ module.exports = class Block{
                     [{x:0,y:0},{x:0,y:1},{x:1,y:0},{x:1,y:1}],
                     [{x:0,y:0},{x:0,y:1},{x:1,y:0},{x:1,y:1}]
                 ],
-                color:'rgb(255,255,0)',
+                color:'rgb(255,204,0)',
                 initialPos:{x:GameSetting.START_POS,y:0}
             },
             T:{
@@ -180,7 +185,7 @@ module.exports = class Block{
                     [{x:0,y:0},{x:1,y:0},{x:-1,y:1},{x:0,y:1}],
                     [{x:0,y:-1},{x:-1,y:0},{x:0,y:0},{x:-1,y:1}]
                 ],
-                color:'rgb(0,255,0)',
+                color:'rgb(51,204,0)',
                 initialPos:{x:GameSetting.START_POS,y:1}
             },
             Z:{

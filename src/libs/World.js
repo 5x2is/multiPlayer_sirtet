@@ -61,7 +61,7 @@ module.exports = class World{
     }
     setWall(cell){
         cell.type = 'wall';
-        cell.color = 'rgb(50,50,50)';
+        cell.color = 'rgb(150,150,150)';
     }
     initFixedBlock(){ //ライン消しの都合上、fixedBlockはy,xの順にする
         const fixedBlock = new Array(GameSetting.FIELD_HEIGHT+3);
@@ -138,7 +138,7 @@ module.exports = class World{
         for(const ghostShape of this.ghost){
             for(const cell of ghostShape.shape){
                 fieldData[cell.x][cell.y].isGhost = true;
-                fieldData[cell.x][cell.y].ghostColor = 'rgb(100,100,100)';
+                fieldData[cell.x][cell.y].ghostColor = 'rgb(255,255,255)';
                 fieldData[cell.x][cell.y].ghostId = ghostShape.user;
             }
         }
@@ -148,32 +148,41 @@ module.exports = class World{
     setGhost(){
         const ghost = [];
         for(const user of this.setUser){
-            const nextShape = [];
-            for(const cell of user.setBlock[0].shape){
-                nextShape.push({...cell});
-            }
-            for(const cell of nextShape){
-                cell.x += user.setBlock[0].fX;
-                cell.y += user.setBlock[0].fY;
-            }
-            for(let drop = 0; drop< GameSetting.FIELD_HEIGHT+3; drop++){
-                for(const cell of nextShape){
-                    cell.y++;
-                }
-                //1マスごと下げていって、干渉するか確認する。
-                if(!(this.collisionCheck(nextShape,user.id) === true)){
-                    break;
-                }
-            }
-            for(const cell of nextShape){
-                cell.y--;
-            }
+            const nextShape = this.getGhost(user)[0];
             ghost.push({
                 shape:nextShape,
                 user:user.id
             });
         }
         this.ghost = ghost;
+    }
+    getGhost(user){
+        const nextShape = [];
+        let collision;
+        for(const cell of user.setBlock[0].shape){
+            nextShape.push({...cell});
+        }
+        for(const cell of nextShape){
+            cell.x += user.setBlock[0].fX;
+            cell.y += user.setBlock[0].fY;
+        }
+        let drop;
+        for(drop = 1; drop< GameSetting.FIELD_HEIGHT+3; drop++){
+            for(const cell of nextShape){
+                cell.y++;
+            }
+            //1マスごと下げていって、干渉するか確認する。
+            collision = this.collisionCheck(nextShape,user.id);
+
+            if(collision !== true){
+                break;
+            }
+        }
+        for(const cell of nextShape){
+            cell.y--;
+        }
+
+        return [nextShape,drop-1,collision];
     }
     collisionCheck(shape,userId){
         const fieldData = this.createFieldData();
