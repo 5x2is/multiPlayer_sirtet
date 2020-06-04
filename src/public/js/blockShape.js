@@ -4,11 +4,11 @@ class blockShape{
         const data = {
             I :{
                 shape:[{x:-2,y:0},{x:-1,y:0},{x:0,y:0},{x:1,y:0}],
-                color:'rgb(102,255,255)'
+                color:'rgb(0,153,255)'
             },
             O:{
                 shape:[{x:-1,y:-1},{x:-1,y:0},{x:0,y:-1},{x:0,y:0}],
-                color:'rgb(255,255,0)'
+                color:'rgb(255,204,0)'
             },
             T:{
                 shape:[{x:0,y:-1},{x:-1,y:0},{x:0,y:0},{x:1,y:0}],
@@ -24,7 +24,7 @@ class blockShape{
             },
             S:{
                 shape:[{x:0,y:-1},{x:1,y:-1},{x:-1,y:0},{x:0,y:0}],
-                color:'rgb(0,255,0)'
+                color:'rgb(51,204,0)'
             },
             Z:{
                 shape:[{x:-1,y:-1},{x:0,y:-1},{x:0,y:0},{x:1,y:0}],
