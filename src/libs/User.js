@@ -40,6 +40,9 @@ module.exports = class User{
     rotateBlock(key){
         this.setBlock[0].rotate(key);
     }
+    hardDrop(){
+        this.setBlock[0].hardDrop();
+    }
     hold(){
         if(this.setBlock[0].holded){
             return;

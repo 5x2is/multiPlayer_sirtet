@@ -61,6 +61,8 @@ module.exports = class Game{
                     user.rotateBlock(keyCode);
                 }else if(keyCode === 68){
                     user.hold();
+                }else if(keyCode === 38){
+                    user.hardDrop();
                 }else{
                     user.moveBlock(keyCode);
                 }

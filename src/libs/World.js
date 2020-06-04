@@ -9,7 +9,9 @@ module.exports = class World{
         this.worldId = id;
         this.setUser = new Set();//ユーザリスト
         this.fixedBlock = this.initFixedBlock();
+        this.ghost = [];
         this.update = setInterval(()=>{
+            this.setGhost();
             io.to(this.worldId).emit('update',this.createFieldData());
         },Math.floor(1000/GameSetting.FRAMERATE));
     }
@@ -24,32 +26,42 @@ module.exports = class World{
     }
     initField(){
         const fieldData = new Array(GameSetting.FIELD_WIDTH+2);
-        const wallData = {
-            type:'wall',
-            color:'rgb(50,50,50)'
-        };
         for(let fX=0; fX<GameSetting.FIELD_WIDTH+2; fX++){
             fieldData[fX] = new Array(GameSetting.FIELD_HEIGHT+3);
+            for(let fY=0; fY<GameSetting.FIELD_HEIGHT+3; fY++){
+                fieldData[fX][fY] = {
+                    type:null,
+                    color:'',
+                    id:'',
+                    isGhost:false,
+                    ghostColor:'',
+                    ghostId:''
+                };
+            }
         }
         //縦の壁
         for(let fY = 0; fY<GameSetting.FIELD_HEIGHT+3; fY++){
-            fieldData[0][fY] = wallData;
-            fieldData[GameSetting.FIELD_WIDTH+1][fY] = wallData;
+            this.setWall(fieldData[0][fY]);
+            this.setWall(fieldData[GameSetting.FIELD_WIDTH+1][fY]);
         }
         //上下の壁
         for(let fX = 1; fX<GameSetting.FIELD_WIDTH+1; fX++){
-            fieldData[fX][GameSetting.FIELD_HEIGHT+2] = wallData;
+            this.setWall(fieldData[fX][GameSetting.FIELD_HEIGHT+2]);
             if(fX <= (GameSetting.FIELD_WIDTH/2)-4 || fX > (GameSetting.FIELD_WIDTH/2)+5){
-                fieldData[fX][0] = wallData;
-                fieldData[fX][1] = wallData;
+                this.setWall(fieldData[fX][0]);
+                this.setWall(fieldData[fX][1]);
             }
             if(fX === Math.floor(GameSetting.FIELD_WIDTH/2)+1){
-                fieldData[fX][0] = wallData;
-                fieldData[fX][1] = wallData;
+                this.setWall(fieldData[fX][0]);
+                this.setWall(fieldData[fX][1]);
             }
         }
 
         return fieldData;
+    }
+    setWall(cell){
+        cell.type = 'wall';
+        cell.color = 'rgb(50,50,50)';
     }
     initFixedBlock(){ //ライン消しの都合上、fixedBlockはy,xの順にする
         const fixedBlock = new Array(GameSetting.FIELD_HEIGHT+3);
@@ -108,11 +120,9 @@ module.exports = class World{
             for(const block of user.setBlock){
                 if(block.stat === 'ready'){
                     for(const cell of block.shape){
-                        fieldData[block.fX + cell.x][block.fY + cell.y] = {
-                            type:'block',
-                            color: block.color,
-                            id: user.id
-                        };
+                        fieldData[block.fX + cell.x][block.fY + cell.y].type = 'block';
+                        fieldData[block.fX + cell.x][block.fY + cell.y].color= block.color;
+                        fieldData[block.fX + cell.x][block.fY + cell.y].id = user.id;
                     }
                 }
             }
@@ -120,15 +130,50 @@ module.exports = class World{
         for(let fY = 0; fY<this.fixedBlock.length; fY++){
             for(let fX = 0; fX<this.fixedBlock[fY].length; fX++){
                 if(this.fixedBlock[fY][fX]){
-                    fieldData[fX][fY] = {
-                        type:'fixed',
-                        color:this.fixedBlock[fY][fX].color
-                    };
+                    fieldData[fX][fY].type = 'fixed';
+                    fieldData[fX][fY].color= this.fixedBlock[fY][fX].color;
                 }
+            }
+        }
+        for(const ghostShape of this.ghost){
+            for(const cell of ghostShape.shape){
+                fieldData[cell.x][cell.y].isGhost = true;
+                fieldData[cell.x][cell.y].ghostColor = 'rgb(100,100,100)';
+                fieldData[cell.x][cell.y].ghostId = ghostShape.user;
             }
         }
 
         return fieldData;
+    }
+    setGhost(){
+        const ghost = [];
+        for(const user of this.setUser){
+            const nextShape = [];
+            for(const cell of user.setBlock[0].shape){
+                nextShape.push({...cell});
+            }
+            for(const cell of nextShape){
+                cell.x += user.setBlock[0].fX;
+                cell.y += user.setBlock[0].fY;
+            }
+            for(let drop = 0; drop< GameSetting.FIELD_HEIGHT+3; drop++){
+                for(const cell of nextShape){
+                    cell.y++;
+                }
+                //1マスごと下げていって、干渉するか確認する。
+                if(!(this.collisionCheck(nextShape,user.id) === true)){
+                    break;
+                }
+            }
+            for(const cell of nextShape){
+                cell.y--;
+            }
+            ghost.push({
+                shape:nextShape,
+                user:user.id
+            });
+        }
+        this.ghost = ghost;
     }
     collisionCheck(shape,userId){
         const fieldData = this.createFieldData();
@@ -157,7 +202,7 @@ module.exports = class World{
             }
         }
 
-        return true;
+        return true;//trueなら干渉していない
     }
     updateNext(setBlock,hold,userId,score){
         const blockId = [];
@@ -176,4 +221,3 @@ module.exports = class World{
         this.io.to(this.worldId).emit('next',nextData);
     }
 };
-

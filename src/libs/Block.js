@@ -49,8 +49,6 @@ module.exports = class Block{
                 }
                 this.fX--;
                 break;
-            case 38:
-                break;
             case 40:
                 collision = this.collisionCheck(this.fX,this.fY+1,this.angle);
                 if(collision === 'fixed'){
@@ -63,6 +61,8 @@ module.exports = class Block{
             default:
                 break;
         }
+    }
+    hardDrop(){
     }
     drop(){
         const collision = this.collisionCheck(this.fX,this.fY+1,this.angle);

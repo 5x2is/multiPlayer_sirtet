@@ -88,10 +88,28 @@ class Screen{
         fieldDat.forEach((fieldColumn,fX)=>{
             fieldColumn.forEach((fieldCell,fY)=>{
                 if(fieldCell){
-                    this.context.fillStyle = fieldCell.color;
-                    this.context.fillRect(ScreenSetting.SIDE_MARGIN+fX*20,fY*20,20,20);
-                    if(fieldCell.id === this.socket.id){
-                        this.context.strokeStyle = 'rgb(255,0,0)';
+                    switch(fieldCell.type){
+                        case 'wall':
+                            this.context.fillStyle = fieldCell.color;
+                            this.context.fillRect(ScreenSetting.SIDE_MARGIN+fX*20,fY*20,20,20);
+                            break;
+                        case 'block':
+                            this.context.fillStyle = fieldCell.color;
+                            this.context.fillRect(ScreenSetting.SIDE_MARGIN+fX*20,fY*20,20,20);
+                            if(fieldCell.id === this.socket.id){
+                                this.context.strokeStyle = 'rgb(255,0,0)';
+                                this.context.strokeRect(ScreenSetting.SIDE_MARGIN+fX*20,fY*20,20,20);
+                            }
+                            break;
+                        case 'fixed':
+                            this.context.fillStyle = fieldCell.color;
+                            this.context.fillRect(ScreenSetting.SIDE_MARGIN+fX*20,fY*20,20,20);
+                            break;
+                        default:
+                            break;
+                    }
+                    if(fieldCell.isGhost && fieldCell.ghostId === this.socket.id){
+                        this.context.strokeStyle = fieldCell.ghostColor;
                         this.context.strokeRect(ScreenSetting.SIDE_MARGIN+fX*20,fY*20,20,20);
                     }
                 }
