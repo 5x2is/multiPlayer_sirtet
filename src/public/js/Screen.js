@@ -15,18 +15,19 @@ class Screen{
         this.socket.on('timer',(time)=>{
             const now = new Date();
             const delay = now.getTime()-time;
-            this.context.clearRect(20,35,100,20);
+            this.context.clearRect(510,13,90,25);
+            this.context.fillStyle = 'rgb(55,55,55)';
+            this.context.fillRect(510,13,90,25);
             this.context.font = '16pt Arial';
             this.context.fillStyle = 'rgb(255,255,255)';
             this.context.textAlign = 'start';
-            this.context.fillText('delay:'+delay,20,50);
+            this.context.fillText('delay:'+delay,520,30);
         });
         this.socket.on('connect',()=>{
             this.socket.emit('enter-the-game');
         });
         this.socket.on('setting',(setting)=>{
-            this.setting = setting.client;
-            this.roomId = setting.roomId;
+            this.setting = setting;
             this.canvas.width = this.setting.FIELD_WIDTH + (2*ScreenSetting.SIDE_MARGIN);
             this.canvas.height = this.setting.FIELD_HEIGHT + ScreenSetting.BOTTOM_MARGIN;
             this.context.strokeStyle = 'rgb(255,255,255)';
@@ -35,9 +36,15 @@ class Screen{
             this.context.strokeRect(10,200,100,250);
             this.context.strokeRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+10,60,100,60);
             this.context.strokeRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+10,200,100,250);
+        });
+        this.socket.on('gameStart',(roomData)=>{
+            this.roomId = roomData.roomId;
             this.context.font = '16pt Arial';
             this.context.fillStyle = 'rgb(255,255,255)';
             this.context.fillText('room:'+this.roomId,30,30);
+            //左右の統一
+            this.context.fillText(roomData.user[0].name,30,50);
+            this.context.fillText(roomData.user[1].name,530,50);
         });
         this.socket.on('update',(fieldDat)=>{
             this.render(fieldDat);
