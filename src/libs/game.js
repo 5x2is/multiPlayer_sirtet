@@ -9,46 +9,58 @@ module.exports = class Game{
     }
     init(){
         for(let i = 0; i<this.rooms.length; i++){
-            this.rooms[i] = [null,null,null];
+            this.rooms[i] = {
+                world:null,
+                users:[{socket:null,name:null},{socket:null,name:null}]
+            };
         }
     }
     start(io){
         io.on('connection',(socket)=>{
             let user = null;
             let roomId = null;
-            let room = null;
+            let world= null;
             let idInRoom = null;
             socket.on('enter-the-game',()=>{
+                io.to(socket.id).emit('setting',GameSetting.CLIENT_SETTING);
+            });
+            socket.on('sendName',(userName)=>{
                 for(let i = 0; i<this.rooms.length; i++){
-                    if(this.rooms[i][0] === null){
-                        if(this.rooms[i][2] === null){
-                            this.rooms[i][2] = new World(io,i);
-                        }
-                        this.rooms[i][0] = socket.id;
+                    if(this.rooms[i].world === null){
+                        this.rooms[i].world = new World(io,i);
+                    }
+                    if(this.rooms[i].users[0].socket === null){
+                        this.rooms[i].users[0] = {
+                            socket:socket.id,
+                            name:userName
+                        };
                         idInRoom = 0;
                         roomId = i;
                         break;
-                    }else if(this.rooms[i][1] === null){
-                        if(this.rooms[i][2] === null){
-                            this.rooms[i][2] = new World(io,i);
-                        }
-                        this.rooms[i][1] = socket.id;
+                    }else if(this.rooms[i].users[1].socket=== null){
+                        this.rooms[i].users[1] = {
+                            socket:socket.id,
+                            name:userName
+                        };
                         idInRoom = 1;
                         roomId = i;
                         break;
                     }
                 }
-                room = this.rooms[roomId][2];
+                //ルーム無いのユーザ情報を返す
+                world = this.rooms[roomId].world;
                 socket.join(roomId);
-                console.log('new user: '+socket.id);
+                console.log('new user: '+userName);
                 console.log('room: '+roomId);
-                const setting = {
-                    client:GameSetting.CLIENT_SETTING,
-                    roomId
+                const roomData = {
+                    roomId,
+                    user:this.rooms[roomId].users
                 };
-                io.to(socket.id).emit('setting',setting);
-                user = room.addUser(socket.id,idInRoom);
-                for(const usr of this.rooms[roomId][2].setUser){
+                console.log(this.rooms[roomId].users[0].name);
+                console.log(this.rooms[roomId].users[1].name);
+                io.to(socket.id).emit('gameStart',roomData);
+                user = world.addUser(socket.id,idInRoom);
+                for(const usr of this.rooms[roomId].world.setUser){
                     usr.updateNext();
                 }
             });
@@ -74,7 +86,7 @@ module.exports = class Game{
                     return;
                 }
                 user.stopDrop();
-                room.removeUser(user);
+                world.removeUser(user);
                 this.rooms[roomId][idInRoom] = null;
             });
         });

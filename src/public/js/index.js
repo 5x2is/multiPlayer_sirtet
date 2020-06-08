@@ -17,3 +17,8 @@ window.addEventListener('keydown',(key)=>{
     };
     socket.emit('move',sendData);
 });
+const sendNameButton = document.getElementById('sendNameButton');
+sendNameButton.addEventListener('click',()=>{
+    socket.emit('sendName',document.sendName.userName.value);
+    console.log(document.sendName.userName.value);
+});
