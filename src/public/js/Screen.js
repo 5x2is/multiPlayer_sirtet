@@ -52,15 +52,14 @@ class Screen{
         });
         this.socket.on('next',(nextDat)=>{
             let startX;
-            if(nextDat.id === this.socket.id){
-                startX = ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+60;
-                this.context.clearRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+15,65,90,50);
-                this.context.clearRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+15,205,90,240);
-            }else{
+            if(nextDat.id === 0){
                 startX = 60;
-                this.context.clearRect(15,65,90,50);
-                this.context.clearRect(15,205,90,240);
+            }else if(nextDat.id === 1){
+                startX = ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+60;
             }
+            console.log(nextDat.id);
+            this.context.clearRect(startX-45,65,90,50);
+            this.context.clearRect(startX-45,205,90,240);
             let nextCount = 0;
             for(let i = 0; i<nextDat.nextBlock.length; i++){
                 if(nextDat.nextBlock[i].stat === 'next'){

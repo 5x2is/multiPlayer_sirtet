@@ -182,6 +182,10 @@ module.exports = class World{
     collisionCheck(shape,userId){
         const fieldData = this.createFieldData();
         for(const cell of shape){
+            //エリア外か
+            if(cell.y <0){
+                return 'fixed';
+            }
             //壁がないか。
             if(fieldData[cell.x] && fieldData[cell.x][cell.y]){
                 if(fieldData[cell.x][cell.y].type === 'wall'){
@@ -208,7 +212,7 @@ module.exports = class World{
 
         return true;//trueなら干渉していない
     }
-    updateNext(setBlock,hold,userId,score){
+    updateNext(setBlock,hold,userNo,score){
         const blockId = [];
         for(let i = 0; i<setBlock.length; i++){
             blockId.push({
@@ -219,7 +223,7 @@ module.exports = class World{
         const nextData = {
             nextBlock: blockId,
             hold:hold && hold.blockID,
-            id:userId,
+            id:userNo,
             score
         };
         this.io.to(this.worldId).emit('next',nextData);

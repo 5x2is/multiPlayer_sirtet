@@ -28,6 +28,8 @@ module.exports = class Block{
     hold(){
         this.stat = 'hold';
         this.holded = true;
+        this.angle = 0;
+        this.shape = this.setShape(this.angle);
         if(this.dropInterval){
             this.stopDrop();
         }
@@ -136,7 +138,7 @@ module.exports = class Block{
                     [{x:-1,y:-1},{x:-1,y:0},{x:-1,y:1},{x:-1,y:2}]
                 ],
                 color:'rgb(0,153,255)',
-                initialPos:{x:GameSetting.START_POS+1,y:0}
+                initialPos:{x:GameSetting.START_POS+1,y:1}
             },
             O:{
                 shape:[
