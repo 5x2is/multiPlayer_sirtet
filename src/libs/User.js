@@ -20,7 +20,7 @@ module.exports = class User{
         this.updateNext();
     }
     updateNext(){
-        this.world.updateNext(this.setBlock,this.holdBlock,this.id,this.score);
+        this.world.updateNext(this.setBlock,this.holdBlock,this.userNo,this.score);
     }
     addBlock(){
         const block = new Block(this.selectBlock(),this.world,this);
