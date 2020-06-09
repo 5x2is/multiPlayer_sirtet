@@ -21,4 +21,6 @@ const sendNameButton = document.getElementById('sendNameButton');
 sendNameButton.addEventListener('click',()=>{
     socket.emit('sendName',document.sendName.userName.value);
     console.log(document.sendName.userName.value);
+    const startForm = document.getElementById('controller');
+    startForm.remove();
 });
