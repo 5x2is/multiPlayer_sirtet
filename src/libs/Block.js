@@ -136,7 +136,7 @@ module.exports = class Block{
                     [{x:-1,y:-1},{x:-1,y:0},{x:-1,y:1},{x:-1,y:2}]
                 ],
                 color:'rgb(0,153,255)',
-                initialPos:{x:GameSetting.START_POS+1,y:1}
+                initialPos:{x:GameSetting.START_POS+1,y:0}
             },
             O:{
                 shape:[
@@ -183,7 +183,7 @@ module.exports = class Block{
                     [{x:0,y:-1},{x:1,y:-1},{x:-1,y:0},{x:0,y:0}],
                     [{x:0,y:-1},{x:0,y:0},{x:1,y:0},{x:1,y:1}],
                     [{x:0,y:0},{x:1,y:0},{x:-1,y:1},{x:0,y:1}],
-                    [{x:0,y:-1},{x:-1,y:0},{x:0,y:0},{x:-1,y:1}]
+                    [{x:-1,y:-1},{x:-1,y:0},{x:0,y:0},{x:0,y:1}]
                 ],
                 color:'rgb(51,204,0)',
                 initialPos:{x:GameSetting.START_POS,y:1}
@@ -196,7 +196,7 @@ module.exports = class Block{
                     [{x:0,y:-1},{x:-1,y:0},{x:0,y:0},{x:-1,y:1}]
                 ],
                 color:'rgb(255,0,0)',
-                initialPos:{x:GameSetting.START_POS,y:2}
+                initialPos:{x:GameSetting.START_POS,y:1}
             }
         };
 
