@@ -43,8 +43,9 @@ class Screen{
             this.context.fillStyle = 'rgb(255,255,255)';
             this.context.fillText('room:'+this.roomId,30,30);
             //左右の統一
-            this.context.fillText(roomData.user[0].name,30,50);
-            this.context.fillText(roomData.user[1].name,530,50);
+            for(const user of roomData.userList){
+                this.context.fillText(user.userName,(500*user.userNo)+30,50);
+            }
         });
         this.socket.on('update',(fieldDat)=>{
             this.render(fieldDat);
