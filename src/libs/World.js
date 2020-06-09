@@ -50,14 +50,6 @@ module.exports = class World{
         //上下の壁
         for(let fX = 1; fX<GameSetting.FIELD_WIDTH+1; fX++){
             this.setWall(fieldData[fX][GameSetting.FIELD_HEIGHT+2]);
-            if(fX <= (GameSetting.FIELD_WIDTH/2)-4 || fX > (GameSetting.FIELD_WIDTH/2)+5){
-                this.setWall(fieldData[fX][0]);
-                this.setWall(fieldData[fX][1]);
-            }
-            if(fX === Math.floor(GameSetting.FIELD_WIDTH/2)+1){
-                this.setWall(fieldData[fX][0]);
-                this.setWall(fieldData[fX][1]);
-            }
         }
 
         return fieldData;
