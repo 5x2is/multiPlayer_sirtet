@@ -15,14 +15,17 @@ module.exports = class World{
             io.to(this.worldId).emit('update',this.createFieldData());
         },Math.floor(1000/GameSetting.FRAMERATE));
     }
-    addUser(id,idInRoom){
-        const user = new User(id,this,idInRoom);
+    addUser(id,idInRoom,userName){
+        const user = new User(id,this,idInRoom,userName);
         this.setUser.add(user);
 
         return user;
     }
     removeUser(user){
         this.setUser.delete(user);
+    }
+    stopUpdate(){
+        clearInterval(this.update);
     }
     initField(){
         const fieldData = new Array(GameSetting.FIELD_WIDTH+2);
