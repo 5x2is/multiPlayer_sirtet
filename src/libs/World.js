@@ -10,6 +10,7 @@ module.exports = class World{
         this.setUser = new Set();//ユーザリスト
         this.fixedBlock = this.initFixedBlock();
         this.ghost = [];
+        this.dropSpeed = GameSetting.DROP_SPEED;
         this.update = setInterval(()=>{
             this.setGhost();
             io.to(this.worldId).emit('update',this.createFieldData());
@@ -54,6 +55,9 @@ module.exports = class World{
 
         return fieldData;
     }
+    speedUp(){
+        this.dropSpeed -= 30;
+    }
     setWall(cell){
         cell.type = 'wall';
         cell.color = 'rgb(150,150,150)';
@@ -90,6 +94,8 @@ module.exports = class World{
                 this.fixedBlock.unshift(new Array(GameSetting.FIELD_WIDTH+2));
                 //得点の追加
                 score = 100+(score*2);
+                //加速
+                this.speedUp();
             }
         }
         this.checkGameOver();

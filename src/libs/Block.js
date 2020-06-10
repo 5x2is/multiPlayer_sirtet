@@ -23,7 +23,7 @@ module.exports = class Block{
             this.fX = this.data.initialPos.x+2;
         }
         this.fY = this.data.initialPos.y;
-        this.dropInterval = setInterval(this.drop.bind(this,this),GameSetting.DROP_SPEED);
+        this.dropInterval = setInterval(this.drop.bind(this,this),this.world.dropSpeed);
     }
     hold(){
         this.stat = 'hold';
