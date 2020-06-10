@@ -28,6 +28,6 @@ module.exports = class GameSetting{
         };
     }
     static get DROP_SPEED(){
-        return 800;
+        return 810;
     }
 };
