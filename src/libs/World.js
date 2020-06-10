@@ -121,7 +121,7 @@ module.exports = class World{
                 }
             }
         }
-        penalty += emptySpace*(27-((GameSetting.DROP_SPEED-this.dropSpeed)/30));
+        penalty += emptySpace*(54-((GameSetting.DROP_SPEED-this.dropSpeed)/15));
         //孤立マスを作った場合
         /*
         const emptyCell = this.initFixedBlock(){ //ライン消しの都合上、fixedBlockはy,xの順にする
@@ -140,6 +140,7 @@ module.exports = class World{
             //探した空白がすでに検証済みで無いかを確認。
         }
         */
+
         return penalty;
     }
     checkGameOver(){
