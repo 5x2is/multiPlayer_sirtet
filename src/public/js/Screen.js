@@ -53,13 +53,15 @@ class Screen{
             const restartButton = document.createElement('button');
             restartButton.textContent = 'RESTART';
             restartButton.addEventListener('click',()=>{
-                    this.socket.emit('restart','');
-                    document.getElementById('game_over').remove();
+                    this.socket.emit('restart',this.roomId);
             });
             gameOverDiv.appendChild(h1);
             gameOverDiv.appendChild(restartButton);
             const cont = document.getElementById('cont');
             cont.appendChild(gameOverDiv);
+        });
+        this.socket.on('restart',()=>{
+            document.getElementById('game_over').remove();
         });
         this.socket.on('update',(fieldDat)=>{
             this.render(fieldDat);
