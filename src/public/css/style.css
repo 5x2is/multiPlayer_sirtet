@@ -1,0 +1,21 @@
+#cont{
+    display:flex;
+    position:relative;
+}
+#canvas_div{
+}
+#description{
+    margin-left:10px;
+    height:100px;
+    width:120px;
+}
+#controller{
+    position:absolute;
+    background:white;
+}
+#game_over{
+    height:300px;
+    width:500px;
+    background:gray;
+    position:absolute;
+}

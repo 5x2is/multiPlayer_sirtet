@@ -226,7 +226,7 @@ module.exports = {
         'prefer-template': 'off',
         'quote-props': 'off',
         'quotes': [
-            'error',
+            'off',
             'single'
         ],
         'radix': 'error',

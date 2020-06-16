@@ -83,8 +83,12 @@ module.exports = class Block{
     nextBlock(){
         const score = this.world.addFixedBlock(this);
         this.user.score += score;
-        this.stopDrop();
-        this.user.nextBlock();
+        if(this.world.checkGameOver()){
+            this.world.gameOver();
+        }else{
+            this.stopDrop();
+            this.user.nextBlock();
+        }
     }
     stopDrop(){
         clearInterval(this.dropInterval);
