@@ -15,9 +15,7 @@ class Screen{
         this.socket.on('timer',(time)=>{
             const now = new Date();
             const delay = now.getTime()-time;
-            this.context.clearRect(510,13,90,25);
-            this.context.fillStyle = 'rgb(55,55,55)';
-            this.context.fillRect(510,13,90,25);
+            this.context.clearRect(510,11,100,25);
             this.context.font = '16pt Arial';
             this.context.fillStyle = 'rgb(255,255,255)';
             this.context.textAlign = 'start';
@@ -46,6 +44,24 @@ class Screen{
             for(const user of roomData.userList){
                 this.context.fillText(user.userName,(500*user.userNo)+30,50);
             }
+        });
+        this.socket.on('gameOver',(gameOverData)=>{
+            const gameOverDiv = document.createElement('div');
+            gameOverDiv.id = 'game_over';
+            const h1 = document.createElement('h1');
+            h1.textContent = 'score: '+gameOverData[0].score;
+            const restartButton = document.createElement('button');
+            restartButton.textContent = 'RESTART';
+            restartButton.addEventListener('click',()=>{
+                    this.socket.emit('restart',this.roomId);
+            });
+            gameOverDiv.appendChild(h1);
+            gameOverDiv.appendChild(restartButton);
+            const cont = document.getElementById('cont');
+            cont.appendChild(gameOverDiv);
+        });
+        this.socket.on('restart',()=>{
+            document.getElementById('game_over').remove();
         });
         this.socket.on('update',(fieldDat)=>{
             this.render(fieldDat);

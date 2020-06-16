@@ -56,12 +56,16 @@ module.exports = class Game{
                     userList
                 };
                 io.to(socket.id).emit('gameStart',roomData);
+                world.gameOn = true;
                 for(const usr of world.setUser){
                     usr.updateNext();
                 }
             });
             socket.on('move',(dat)=>{
                 if(!user){
+                    return;
+                }
+                if(!world.gameOn){
                     return;
                 }
                 const keyCode = dat.keyCode;
@@ -87,6 +91,11 @@ module.exports = class Game{
                     world.stopUpdate();
                     this.worlds[worldId] = null;
                 }
+            });
+            socket.on('restart',()=>{
+                console.log('restart');
+                io.to(worldId).emit('restart');
+                world.restart();
             });
         });
     }

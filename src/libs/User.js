@@ -75,6 +75,13 @@ module.exports = class User{
 
         return nextBlockID;
     }
+    reset(){
+        this.stopDrop();
+        this.score = 0;
+        this.holdBlock = null;
+        this.blockBag = this.initBlockBag();
+        this.setBlock = [];
+    }
     initBlockBag(){
         return ['I','O','T','J','L','S','Z'];
     }

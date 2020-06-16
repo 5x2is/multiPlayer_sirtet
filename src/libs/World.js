@@ -11,9 +11,14 @@ module.exports = class World{
         this.fixedBlock = this.initFixedBlock();
         this.ghost = [];
         this.dropSpeed = GameSetting.DROP_SPEED;
+        this.gameOn = false;
+        this.update = null;
+        this.init();
+    }
+    init(){
         this.update = setInterval(()=>{
             this.setGhost();
-            io.to(this.worldId).emit('update',this.createFieldData());
+            this.io.to(this.worldId).emit('update',this.createFieldData());
         },Math.floor(1000/GameSetting.FRAMERATE));
     }
     addUser(id,idInRoom,userName){
@@ -100,7 +105,6 @@ module.exports = class World{
         }
         //マイナスポイント確認
         score -= this.checkPenalty(block);
-        this.checkGameOver();
 
         return score;
     }
@@ -147,14 +151,39 @@ module.exports = class World{
         for(let x = 5; x<14; x++){
             for(let y = 0; y<2; y++){
                 if(this.fixedBlock[y][x]){
-                    this.restart();
+                    console.log('gameover');
+
+                    return true;
                 }
             }
         }
+
+        return false;
+    }
+    gameOver(){
+        this.gameOn = false;
+        this.stopUpdate();
+        const gameOverData = [];
+        let userI = 0;
+        for(const user of this.setUser){
+            gameOverData[userI] ={
+                id:user.userNo,
+                score:user.score,
+                name:user.name
+            };
+            user.reset();
+            userI++;
+        }
+        this.io.to(this.worldId).emit('gameOver',gameOverData);
     }
     restart(){
-        console.log('gameover');
+        this.gameOn = true;
+        this.dropSpeed = GameSetting.DROP_SPEED;
         this.fixedBlock = this.initFixedBlock();
+        for(const user of this.setUser){
+            user.init();
+        }
+        this.init();
     }
     createFieldData(){
         const fieldData = this.initField();
