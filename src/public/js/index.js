@@ -2,8 +2,12 @@
 console.log('index.js');
 
 const socket = io.connect();
-const canvas = document.getElementById('maincanvas');
-const screen = new Screen(socket,canvas);
+const maincanvas = document.getElementById('maincanvas');
+const menucanvas = document.getElementById('menucanvas');
+const bgcanvas = document.getElementById('bgcanvas');
+const screen = new Screen(socket,maincanvas);
+const background= new Background(bgcanvas);
+//const menu = new Menu(socket,menucanvas);
 const validCode = [37,38,39,40,65,68,83];
 window.addEventListener('keydown',(key)=>{
     if(!validCode.includes(key.which)){

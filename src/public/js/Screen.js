@@ -6,7 +6,6 @@ class Screen{
         this.context = canvas.getContext('2d');
         this.canvas.width;
         this.canvas.height;
-        this.canvas.style.backgroundColor = 'rgb(20,20,20)';
         this.setting;
 
         this.initSocket();
@@ -30,10 +29,6 @@ class Screen{
             this.canvas.height = this.setting.FIELD_HEIGHT + ScreenSetting.BOTTOM_MARGIN;
             this.context.strokeStyle = 'rgb(255,255,255)';
             this.context.lineWidth= 2;
-            this.context.strokeRect(10,60,100,60);
-            this.context.strokeRect(10,200,100,250);
-            this.context.strokeRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+10,60,100,60);
-            this.context.strokeRect(ScreenSetting.SIDE_MARGIN+this.setting.FIELD_WIDTH+10,200,100,250);
         });
         this.socket.on('gameStart',(roomData)=>{
             this.roomId = roomData.roomId;
