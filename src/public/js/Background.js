@@ -80,5 +80,19 @@ class Background{
             line.lineTo(this.SS.FIELD_X1+(this.SS.cell*i),this.SS.FIELD_Y1+this.SS.FIELD_HEIGHT);
             line.stroke();
         }
+        //テキスト
+        const text = this.canvas.getContext('2d');
+        text.font = '18pt Arial';
+        text.fillStyle = 'white';
+        text.textAlign = 'center';
+        text.textBaseline = 'middle';
+        text.fillText('LEVEL',this.SS.cell*3,this.SS.cell);
+        text.fillText('DELAY',this.SS.cell*26,this.SS.cell);
+        text.fillText('HOLD',this.SS.cell*3,this.SS.cell*4.6);
+        text.fillText('HOLD',this.SS.cell*26,this.SS.cell*4.6);
+        text.fillText('NEXT',this.SS.cell*3,this.SS.cell*10.6);
+        text.fillText('NEXT',this.SS.cell*26,this.SS.cell*10.6);
+        text.fillText('SCORE',this.SS.cell*3,this.SS.cell*25.6);
+        text.fillText('SCORE',this.SS.cell*26,this.SS.cell*25.6);
     }
 }

@@ -55,7 +55,7 @@ module.exports = class Game{
                     roomId:worldId,
                     userList
                 };
-                io.to(socket.id).emit('gameStart',roomData);
+                io.to(worldId).emit('gameStart',roomData);
                 world.gameOn = true;
                 for(const usr of world.setUser){
                     usr.updateNext();
