@@ -3,6 +3,10 @@
     position:relative;
 }
 #canvas_div{
+    position:relative;
+}
+#canvas_div canvas{
+    position:absolute;
 }
 #description{
     margin-left:10px;
