@@ -15,11 +15,43 @@
 }
 #controller{
     position:absolute;
-    background:white;
 }
 #game_over{
     height:300px;
     width:500px;
     background:gray;
     position:absolute;
+}
+#name_form{
+    border-style: double;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0,0,0,0.7);
+    position: absolute;
+    border-color: white;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 400px;
+    height: 180px;
+}
+#name_form label{
+    display:inline-block;
+    margin:auto;
+    color:white;
+    font-size:30px;
+}
+#name_form input{
+    display:inline-block;
+    margin:13px;
+    font-size:30px;
+}
+#name_form button{
+    display:inline-block;
+    background:gray;
+    font-size:30px;
+    margin:13px;
+    color:black;
 }
