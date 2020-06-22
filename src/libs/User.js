@@ -7,12 +7,13 @@ module.exports = class User{
         this.userNo = userNo;
         this.name = name;
         this.world = worldClass;
-        this.blockBag = this.initBlockBag();
-        this.holdBlock = null;
-        this.score = 0;
-        this.init();
     }
     init(){
+        this.blockBag = this.initBlockBag();
+        this.score = 0;
+        this.holdBlock = null;
+        this.initBlock();
+        console.log('initUser');
         for(let i = 0; i<4; i++){
             this.addBlock();
         }
@@ -21,6 +22,12 @@ module.exports = class User{
     }
     updateNext(){
         this.world.updateNext(this.setBlock,this.holdBlock,this.userNo,this.score);
+    }
+    initBlock(){
+        for(const block of this.setBlock){
+            block.stopDrop();
+        }
+        this.setBlock = [];
     }
     addBlock(){
         const block = new Block(this.selectBlock(),this.world,this);

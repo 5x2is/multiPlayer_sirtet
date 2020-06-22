@@ -8,20 +8,30 @@ module.exports = class World{
         this.io = io;
         this.worldId = id;
         this.setUser = new Set();//ユーザリスト
-        this.fixedBlock = this.initFixedBlock();
         this.ghost = [];
-        this.dropSpeed = GameSetting.DROP_SPEED;
         this.gameOn = false;
-        this.update = null;
-        this.level = null;
         this.init();
     }
     init(){
+        this.update = null;
+        this.fixedBlock = this.initFixedBlock();
+        this.dropSpeed = GameSetting.DROP_SPEED;
+        this.level = 1;
+        this.gameStart();
+    }
+    gameStart(){
         this.update = setInterval(()=>{
+            if(!this.gameOn){
+                return;
+            }
             this.setGhost();
             this.io.to(this.worldId).emit('update',this.createFieldData());
         },Math.floor(1000/GameSetting.FRAMERATE));
-        this.level = 1;
+        for(const user of this.setUser){
+            user.init();
+        }
+        //update Next
+        this.gameOn = true;
     }
     addUser(id,idInRoom,userName){
         const user = new User(id,this,idInRoom,userName);
@@ -68,7 +78,6 @@ module.exports = class World{
     }
     setWall(cell){
         cell.type = 'wall';
-        cell.color = 'rgb(150,150,150)';
     }
     initFixedBlock(){ //ライン消しの都合上、fixedBlockはy,xの順にする
         const fixedBlock = new Array(GameSetting.FIELD_HEIGHT+3);
@@ -180,12 +189,7 @@ module.exports = class World{
         this.io.to(this.worldId).emit('gameOver',gameOverData);
     }
     restart(){
-        this.gameOn = true;
-        this.dropSpeed = GameSetting.DROP_SPEED;
-        this.fixedBlock = this.initFixedBlock();
-        for(const user of this.setUser){
-            user.init();
-        }
+        this.stopUpdate();
         this.init();
     }
     createFieldData(){

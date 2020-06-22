@@ -32,9 +32,6 @@ class Screen{
         this.socket.on('connect',()=>{
             this.socket.emit('enter-the-game');
         });
-        this.socket.on('setting',(setting)=>{
-            this.setting = setting;
-        });
         this.socket.on('gameStart',(roomData)=>{
             this.roomId = roomData.roomId;
             console.log(this.roomId);
