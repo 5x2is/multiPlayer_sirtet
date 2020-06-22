@@ -1,6 +1,5 @@
 'use strict';
 const World = require('./World.js');
-const GameSetting = require('./GameSetting.js');
 
 module.exports = class Game{
     constructor(){
@@ -17,9 +16,6 @@ module.exports = class Game{
             let user = null;
             let worldId = null;
             let world= null;
-            socket.on('enter-the-game',()=>{
-                io.to(socket.id).emit('setting',GameSetting.CLIENT_SETTING);
-            });
             socket.on('sendName',(userName)=>{
                 for(worldId = 0; worldId <this.worlds.length; worldId++){
                     if(this.worlds[worldId] === null){
@@ -56,10 +52,7 @@ module.exports = class Game{
                     userList
                 };
                 io.to(worldId).emit('gameStart',roomData);
-                world.gameOn = true;
-                for(const usr of world.setUser){
-                    usr.updateNext();
-                }
+                world.restart();
             });
             socket.on('move',(dat)=>{
                 if(!user){

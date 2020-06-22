@@ -72,6 +72,7 @@ module.exports = class Block{
         }
     }
     drop(){
+        //console.log('drop '+this.blockID);
         const collision = this.collisionCheck(this.fX,this.fY+1,this.angle);
         if(collision === 'fixed'){
             this.nextBlock();
@@ -84,6 +85,7 @@ module.exports = class Block{
         const score = this.world.addFixedBlock(this);
         this.user.score += score;
         if(this.world.checkGameOver()){
+            this.stopDrop();
             this.world.gameOver();
         }else{
             this.stopDrop();
