@@ -28,3 +28,7 @@ sendNameButton.addEventListener('click',()=>{
     const startForm = document.getElementById('controller');
     startForm.remove();
 });
+//Controller
+const controller = document.getElementById('controller');
+controller.style.width = ScreenSetting.CANVAS_WIDTH+'px';
+controller.style.height= ScreenSetting.CANVAS_HEIGHT+'px';
