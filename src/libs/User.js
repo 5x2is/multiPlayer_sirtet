@@ -69,7 +69,10 @@ module.exports = class User{
         }
     }
     stopDrop(){
-        this.setBlock[0].stopDrop();
+        if(this.setBlock[0]){
+            console.log('stopdrop');
+            this.setBlock[0].stopDrop();
+        }
     }
     selectBlock(){
         if(this.blockBag.length === 0){

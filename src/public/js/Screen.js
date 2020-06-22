@@ -55,15 +55,31 @@ class Screen{
         this.socket.on('gameOver',(gameOverData)=>{
             const gameOverDiv = document.createElement('div');
             gameOverDiv.id = 'game_over';
-            const h1 = document.createElement('h1');
-            h1.textContent = 'score: '+gameOverData[0].score;
+            gameOverDiv.style.width =this.SS.CANVAS_WIDTH+'px';
+            gameOverDiv.style.height=this.SS.CANVAS_HEIGHT+'px';
+            const gameOverWindow = document.createElement('div');
+            gameOverWindow.id = 'game_over_window';
+            const score = document.createElement('p');
+            score.textContent = 'SCORE : '+gameOverData[0].score;
+            //対戦の場合、WIN/LOSEを表示
+            if(gameOverData.length === 2){
+                if((gameOverData[0].score > gameOverData[1].score)===(gameOverData[0].id === this.socket.id)){
+                    score.textContent = 'YOU WIN !';
+                }else{
+                    score.textContent = 'YOU LOSE...';
+                }
+                if(gameOverData[0].score === gameOverData[1].score){
+                    score.textContent = '- DRAW -';
+                }
+            }
             const restartButton = document.createElement('button');
             restartButton.textContent = 'RESTART';
             restartButton.addEventListener('click',()=>{
                     this.socket.emit('restart',this.roomId);
             });
-            gameOverDiv.appendChild(h1);
-            gameOverDiv.appendChild(restartButton);
+            gameOverDiv.appendChild(gameOverWindow);
+            gameOverWindow.appendChild(score);
+            gameOverWindow.appendChild(restartButton);
             const cont = document.getElementById('cont');
             cont.appendChild(gameOverDiv);
         });

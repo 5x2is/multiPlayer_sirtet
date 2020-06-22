@@ -179,7 +179,7 @@ module.exports = class World{
         let userI = 0;
         for(const user of this.setUser){
             gameOverData[userI] ={
-                id:user.userNo,
+                id:user.id,
                 score:user.score,
                 name:user.name
             };

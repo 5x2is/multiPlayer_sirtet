@@ -17,9 +17,6 @@
     position:absolute;
 }
 #game_over{
-    height:300px;
-    width:500px;
-    background:gray;
     position:absolute;
 }
 #name_form{
@@ -29,6 +26,7 @@
     background: rgba(0,0,0,0.7);
     position: absolute;
     border-color: white;
+    border-width:2px;
     top: 0;
     bottom: 0;
     left: 0;
@@ -53,5 +51,35 @@
     background:gray;
     font-size:30px;
     margin:13px;
+    color:black;
+}
+#game_over_window{
+    border-style: double;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0,0,0,0.8);
+    position: absolute;
+    border-color: white;
+    border-width:2px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 400px;
+    height: 140px;
+}
+#game_over_window p{
+    display:inline-block;
+    margin:auto;
+    margin-top:10px;
+    color:white;
+    font-size:30px;
+}
+#game_over_window button{
+    display:inline-block;
+    background:gray;
+    font-size:30px;
+    margin:20px;
     color:black;
 }
