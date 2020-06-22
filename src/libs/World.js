@@ -13,6 +13,7 @@ module.exports = class World{
         this.dropSpeed = GameSetting.DROP_SPEED;
         this.gameOn = false;
         this.update = null;
+        this.level = null;
         this.init();
     }
     init(){
@@ -20,6 +21,7 @@ module.exports = class World{
             this.setGhost();
             this.io.to(this.worldId).emit('update',this.createFieldData());
         },Math.floor(1000/GameSetting.FRAMERATE));
+        this.level = 1;
     }
     addUser(id,idInRoom,userName){
         const user = new User(id,this,idInRoom,userName);
@@ -62,6 +64,7 @@ module.exports = class World{
     }
     speedUp(){
         this.dropSpeed -= 30;
+        this.level++;
     }
     setWall(cell){
         cell.type = 'wall';
@@ -300,7 +303,8 @@ module.exports = class World{
             nextBlock: blockId,
             hold:hold && hold.blockID,
             id:userNo,
-            score
+            score,
+            level:this.level
         };
         this.io.to(this.worldId).emit('next',nextData);
     }

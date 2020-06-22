@@ -7,7 +7,6 @@ class Screen{
         this.canvas.width = this.SS.CANVAS_WIDTH;
         this.canvas.height =this.SS.CANVAS_HEIGHT;
         this.context = this.canvas.getContext('2d');
-        this.setting;
 
         this.initSocket();
     }
@@ -38,6 +37,10 @@ class Screen{
         });
         this.socket.on('gameStart',(roomData)=>{
             this.roomId = roomData.roomId;
+            console.log(this.roomId);
+            this.setTextContext();
+            this.context.clearRect(this.SS.cell*6,0,this.SS.cell*17,this.SS.cell*3);
+            this.context.fillText('ROOM ID: '+this.roomId,this.SS.cell*14.5,this.SS.cell,this.SS.cell*17);
             //左右の統一
             for(const user of roomData.userList){
                 this.setNameContext();
@@ -100,9 +103,13 @@ class Screen{
                     this.context.fillRect(this.SS.cell*(startX+2.5+cell.x),(this.SS.cell*(cell.y+7.5)),this.SS.cell,this.SS.cell);
                 }
             }
+            //SCORE
             this.setTextContext();
             this.context.clearRect(this.SS.cell*startX,this.SS.cell*26.5,this.SS.cell*6,this.SS.cell*2);
             this.context.fillText(nextDat.score,this.SS.cell*(3+startX),this.SS.cell*27.6,this.SS.cell*6);
+            //LEVEL
+            this.context.clearRect(0,this.SS.cell*1.5,this.SS.cell*6,this.SS.cell*2);
+            this.context.fillText(nextDat.level,this.SS.cell*3,this.SS.cell*2.6,this.SS.cell*6);
         });
     }
     drawRect(x,y,color){
