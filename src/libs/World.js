@@ -138,24 +138,6 @@ module.exports = class World{
             }
         }
         penalty += emptySpace*(54-((GameSetting.DROP_SPEED-this.dropSpeed)/15));
-        //孤立マスを作った場合
-        /*
-        const emptyCell = this.initFixedBlock(){ //ライン消しの都合上、fixedBlockはy,xの順にする
-        const emptyCellList = [];
-        for(const cell of block.shape){
-            //十字方向に探索、空欄があったら空白リストに追加
-            if(this.fixedBlock[block.fY+cell.y][block.fX+cell.x] === undefined){
-                if(emptyCell[block.fY+cell.y][block.fX+cell.x] = undefined){
-                    emptyCell[block.fY+cell.y][block.fX+cell.x] = 1;//1で追加
-                    emptyCellList.push([block.fY+cell.y,block.fX+cell.x]);
-                    //空白から上にたどって行って、fixedBlockがなければ孤立マスではない。
-                    for(y = block.fY+cell.y; y>0; y--){
-                        if(this.fixedBlock[block.fY]
-                    }
-            //上に辿れない空白があった場合はそのマスの十字方向に空白を探す。
-            //探した空白がすでに検証済みで無いかを確認。
-        }
-        */
 
         return penalty;
     }
@@ -283,7 +265,7 @@ module.exports = class World{
             }
             //別のブロックがないか
             for(const user of this.setUser){
-                if(user.id !== userId){
+                if((user.id !== userId) && user.setBlock[0]){
                     for(const otherCell of user.setBlock[0].shape){
                         if(otherCell.x+user.setBlock[0].fX === cell.x && otherCell.y+user.setBlock[0].fY === cell.y){
                             return 'block';

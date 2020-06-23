@@ -16,14 +16,26 @@ module.exports = class Block{
         this.holded = false;//1回しかholdできなくする。
     }
     start(){
-        this.stat = 'ready';
         if(this.user.userNo === 0){
             this.fX = this.data.initialPos.x-3;
         }else{
             this.fX = this.data.initialPos.x+2;
         }
         this.fY = this.data.initialPos.y;
-        this.dropInterval = setInterval(this.drop.bind(this,this),this.world.dropSpeed);
+        this.startCollision();
+    }
+
+    startCollision(){
+        if(this.collisionCheck(this.fX,this.fY,this.angle) === true){
+            this.stat = 'ready';
+            this.dropInterval = setInterval(this.drop.bind(this,this),this.world.dropSpeed);
+
+            return true;
+        }
+        this.stat = 'waiting';
+        setTimeout(this.startCollision.bind(this),Math.floor(1000/GameSetting.FRAMERATE));
+
+        return false;
     }
     hold(){
         this.stat = 'hold';
