@@ -13,7 +13,6 @@ module.exports = class User{
         this.score = 0;
         this.holdBlock = null;
         this.initBlock();
-        console.log('initUser');
         for(let i = 0; i<4; i++){
             this.addBlock();
         }
