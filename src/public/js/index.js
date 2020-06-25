@@ -10,6 +10,11 @@ const background= new Background(bgcanvas);
 //const menu = new Menu(socket,menucanvas);
 const validCode = [37,38,39,40,65,68,83];
 window.addEventListener('keydown',(key)=>{
+    if(key.which === 13 && document.getElementById('sendNameButton')){
+        socket.emit('sendName',document.sendName.userName.value);
+
+        return;
+    }
     if(!validCode.includes(key.which)){
         return;
     }
@@ -24,9 +29,6 @@ window.addEventListener('keydown',(key)=>{
 const sendNameButton = document.getElementById('sendNameButton');
 sendNameButton.addEventListener('click',()=>{
     socket.emit('sendName',document.sendName.userName.value);
-    console.log(document.sendName.userName.value);
-    const startForm = document.getElementById('controller');
-    startForm.remove();
 });
 //Controller
 const controller = document.getElementById('controller');
