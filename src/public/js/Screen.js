@@ -34,7 +34,6 @@ class Screen{
         });
         this.socket.on('gameStart',(roomData)=>{
             this.roomId = roomData.roomId;
-            console.log(this.roomId);
             this.setTextContext();
             this.context.clearRect(this.SS.cell*6,0,this.SS.cell*17,this.SS.cell*3);
             this.context.fillText('ROOM ID: '+this.roomId,this.SS.cell*14.5,this.SS.cell,this.SS.cell*17);
@@ -50,6 +49,9 @@ class Screen{
                     this.context.textAlign = 'end';
                     this.context.fillText(user.userName,this.SS.cell*28.5,this.SS.cell*31.6,this.SS.cell*13);
                 }
+            }
+            if(document.getElementById('game_over')){
+                document.getElementById('game_over').remove();
             }
         });
         this.socket.on('gameOver',(gameOverData)=>{
@@ -138,8 +140,6 @@ class Screen{
         //全体をクリア
         this.context.clearRect(this.SS.cell*6,this.SS.cell*2,this.SS.cell*17,this.SS.cell*27);
         if(!fieldDat.length){
-            console.log('empty');
-
             return;
         }
         fieldDat.forEach((fieldColumn,fX)=>{
