@@ -69,7 +69,6 @@ module.exports = class User{
     }
     stopDrop(){
         if(this.setBlock[0]){
-            console.log('stopdrop');
             this.setBlock[0].stopDrop();
         }
     }
