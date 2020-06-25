@@ -3,7 +3,8 @@ const World = require('./World.js');
 
 module.exports = class Game{
     constructor(){
-        this.worlds= new Array(5);
+        this.maxWorld = 5;
+        this.worlds= new Array(this.maxWorld);
         this.init();
     }
     init(){
@@ -16,22 +17,30 @@ module.exports = class Game{
             let user = null;
             let worldId = null;
             let world= null;
+            //io.to(socket.id).emit('room_stat',this.getRoomStat);
             socket.on('sendName',(userName)=>{
-                for(worldId = 0; worldId <this.worlds.length; worldId++){
-                    if(this.worlds[worldId] === null){
-                        this.worlds[worldId] = new World(io,worldId);
+                for(let i = 0; i <this.worlds.length; i++){
+                    if(this.worlds[i] === null){
+                        this.worlds[i] = new World(io,i);
                     }
-                    if(this.worlds[worldId].setUser.size === 0){
-                        user = this.worlds[worldId].addUser(socket.id,0,userName);
+                    if(this.worlds[i].setUser.size === 0){
+                        user = this.worlds[i].addUser(socket.id,0,userName);
+                        worldId = i;
                         break;
-                    }else if(this.worlds[worldId].setUser.size === 1){
+                    }else if(this.worlds[i].setUser.size === 1){
                         let emptyId;
-                        for(const usr of this.worlds[worldId].setUser){
+                        for(const usr of this.worlds[i].setUser){
                             emptyId = (usr.userNo*-1)+1;
                         }
-                        user = this.worlds[worldId].addUser(socket.id,emptyId,userName);
+                        user = this.worlds[i].addUser(socket.id,emptyId,userName);
+                        worldId = i;
                         break;
                     }
+                }
+                if(worldId === null){
+                    io.to(socket.id).emit('room_is_full','');
+
+                    return;
                 }
                 //ルーム内のユーザ情報を返す
                 world = this.worlds[worldId];
@@ -91,5 +100,18 @@ module.exports = class Game{
                 world.restart();
             });
         });
+    }
+    getRoomStat(){
+        let worldCount = 0;
+        for(const world of this.worlds){
+            if(world){
+                worldCount++;
+            }
+        }
+
+        return {
+            maxWorld:this.maxWorld,
+            worldNo:worldCount
+        };
     }
 };

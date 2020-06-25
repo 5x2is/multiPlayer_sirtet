@@ -29,10 +29,16 @@ class Screen{
             this.setTextContext();
             this.context.fillText(delay+' ms',this.SS.cell*26,this.SS.cell*2.6);
         });
-        this.socket.on('connect',()=>{
-            this.socket.emit('enter-the-game');
+        this.socket.on('room_stat',(stat)=>{
+            console.log(stat);
+        });
+        this.socket.on('room_is_full',()=>{
+            alert('room is full');
+            console.log('full');
         });
         this.socket.on('gameStart',(roomData)=>{
+            const startForm = document.getElementById('controller');
+            startForm.remove();
             this.roomId = roomData.roomId;
             this.setTextContext();
             this.context.clearRect(this.SS.cell*6,0,this.SS.cell*17,this.SS.cell*3);
