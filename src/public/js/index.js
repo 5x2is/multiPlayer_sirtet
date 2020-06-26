@@ -7,7 +7,7 @@ const menucanvas = document.getElementById('menucanvas');
 const bgcanvas = document.getElementById('bgcanvas');
 const screen = new Screen(socket,maincanvas);
 const background= new Background(bgcanvas);
-//const menu = new Menu(socket,menucanvas);
+const menu = new Menu(socket,menucanvas);
 const validCode = [37,38,39,40,65,68,83];
 window.addEventListener('keydown',(key)=>{
     if(key.which === 13 && document.getElementById('sendNameButton')){

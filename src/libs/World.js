@@ -10,7 +10,6 @@ module.exports = class World{
         this.setUser = new Set();//ユーザリスト
         this.ghost = [];
         this.gameOn = false;
-        this.init();
     }
     init(){
         this.update = null;
@@ -20,18 +19,24 @@ module.exports = class World{
         this.gameStart();
     }
     gameStart(){
-        this.update = setInterval(()=>{
-            if(!this.gameOn){
-                return;
-            }
-            this.setGhost();
-            this.io.to(this.worldId).emit('update',this.createFieldData());
-        },Math.floor(1000/GameSetting.FRAMERATE));
-        for(const user of this.setUser){
-            user.init();
+        let timer = 0;
+        if(this.setUser.size === 2){
+            timer = 2300;
         }
+        setTimeout(()=>{
+            this.update = setInterval(()=>{
+                if(!this.gameOn){
+                    return;
+                }
+                this.setGhost();
+                this.io.to(this.worldId).emit('update',this.createFieldData());
+            },Math.floor(1000/GameSetting.FRAMERATE));
+            for(const user of this.setUser){
+                user.init();
+            }
+            this.gameOn = true;
+        },timer);
         //update Next
-        this.gameOn = true;
     }
     addUser(id,idInRoom,userName){
         const user = new User(id,this,idInRoom,userName);
@@ -171,6 +176,7 @@ module.exports = class World{
         this.io.to(this.worldId).emit('gameOver',gameOverData);
     }
     restart(){
+        console.log('restart');
         this.stopUpdate();
         this.init();
     }

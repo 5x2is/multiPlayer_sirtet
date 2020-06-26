@@ -37,8 +37,10 @@ class Screen{
             console.log('full');
         });
         this.socket.on('gameStart',(roomData)=>{
-            const startForm = document.getElementById('controller');
-            startForm.remove();
+            if(document.getElementById('controller')){
+                document.getElementById('controller').remove();
+            }
+            this.clearAll();
             this.roomId = roomData.roomId;
             this.setTextContext();
             this.context.clearRect(this.SS.cell*6,0,this.SS.cell*17,this.SS.cell*3);
@@ -93,6 +95,7 @@ class Screen{
         });
         this.socket.on('restart',()=>{
             document.getElementById('game_over').remove();
+            this.clearAll();
         });
         this.socket.on('update',(fieldDat)=>{
             this.render(fieldDat);
@@ -133,6 +136,15 @@ class Screen{
             this.context.fillText(nextDat.level,this.SS.cell*3,this.SS.cell*2.6,this.SS.cell*6);
         });
     }
+    clearAll(){
+            this.context.clearRect(this.SS.cell*6,this.SS.cell*2,this.SS.cell*17,this.SS.cell*27);
+            this.context.clearRect(0,this.SS.cell*5,this.SS.cell*6,this.SS.cell*21);
+            this.context.clearRect(this.SS.cell*23,this.SS.cell*5,this.SS.cell*6,this.SS.cell*21);
+            this.context.clearRect(0,this.SS.cell*26.5,this.SS.cell*6,this.SS.cell*2);
+            this.context.clearRect(this.SS.cell*23,this.SS.cell*26.5,this.SS.cell*6,this.SS.cell*2);
+            this.context.clearRect(0,this.SS.cell*1.5,this.SS.cell*6,this.SS.cell*2);
+            this.context.clearRect(this.SS.cell*23,this.SS.cell*1.8,this.SS.cell*6,this.SS.cell*1.5);
+        }
     drawRect(x,y,color){
         this.context.fillStyle = color;
         this.context.fillRect(this.SS.cell*(x+5),this.SS.cell*(y+2),this.SS.cell,this.SS.cell);

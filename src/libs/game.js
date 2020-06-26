@@ -47,20 +47,10 @@ module.exports = class Game{
                 socket.join(worldId);
                 console.log('new user: '+userName);
                 console.log('room: '+worldId);
-                let userI = 0;
-                const userList = [];
-                for(const usr of world.setUser){
-                    userList[userI] = {
-                        userNo:usr.userNo,
-                        userName:usr.name
-                    };
-                    userI++;
+                if(world.setUser.size === 2){
+                    io.to(worldId).emit('start_signal',this.getRoomData(io,world,worldId));
                 }
-                const roomData = {
-                    roomId:worldId,
-                    userList
-                };
-                io.to(worldId).emit('gameStart',roomData);
+                io.to(worldId).emit('gameStart',this.getRoomData(io,world,worldId));
                 world.restart();
             });
             socket.on('move',(dat)=>{
@@ -95,11 +85,30 @@ module.exports = class Game{
                 }
             });
             socket.on('restart',()=>{
-                console.log('restart');
+                if(world.setUser.size === 2){
+                    io.to(worldId).emit('start_signal',this.getRoomData(io,world,worldId));
+                }
                 io.to(worldId).emit('restart');
                 world.restart();
             });
         });
+    }
+    getRoomData(io,world,worldId){
+        let userI = 0;
+        const userList = [];
+        for(const usr of world.setUser){
+            userList[userI] = {
+                userNo:usr.userNo,
+                userName:usr.name
+            };
+            userI++;
+        }
+        const roomData = {
+            roomId:worldId,
+            userList
+        };
+
+        return roomData;
     }
     getRoomStat(){
         let worldCount = 0;
