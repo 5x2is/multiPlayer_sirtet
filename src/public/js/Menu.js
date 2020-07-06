@@ -9,7 +9,6 @@ class Menu{
         this.init();
     }
     init(){
-        console.log('menu');
         this.context = this.canvas.getContext('2d');
 
         this.socket.on('start_signal',(roomData)=>{
@@ -28,6 +27,34 @@ class Menu{
             //1.5-2.0 消える
             setTimeout(this.move.bind(this),1700);
         });
+        this.socket.on('penalty',(penaltyData)=>{
+            for(const penaltyCell of penaltyData.penaltyCells){
+                this.fillCell(penaltyCell.x,penaltyCell.y);
+            }
+            setTimeout(()=>{
+                this.context.font = '20pt Arial';
+                this.context.fillStyle = 'white';
+                this.context.textBaseline = 'middle';
+                this.context.textAlign = 'center';
+                this.context.fillText('- '+penaltyData.penalty,this.SS.cell*(penaltyData.position.X+6),this.SS.cell*(penaltyData.position.Y+3));
+                setTimeout(()=>{
+                    this.context.globalCompositeOperation = "destination-out";
+                    this.context.lineWidth = 4;
+                    this.context.strokeText('- '+penaltyData.penalty,this.SS.cell*(penaltyData.position.X+6),this.SS.cell*(penaltyData.position.Y+3));
+                    this.context.globalCompositeOperation = "source-over";
+                },1000);
+            },160);
+        });
+    }
+    fillCell(x,y){
+        this.context.fillStyle = 'rgba(255,255,255,0.8)';
+        this.context.fillRect(this.SS.cell*(x+5),this.SS.cell*(y+2),this.SS.cell,this.SS.cell);
+        setTimeout(()=>{
+            this.context.globalCompositeOperation = "destination-out";
+            this.context.fillStyle = 'white';
+            this.context.fillRect(this.SS.cell*(x+5),this.SS.cell*(y+2),this.SS.cell,this.SS.cell);
+            this.context.globalCompositeOperation = "source-over";
+        },150);
     }
     move(){
         this.frameCounter = 0;

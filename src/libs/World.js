@@ -129,6 +129,7 @@ module.exports = class World{
         //下に空白を作ったとき(下1段は免除)
         let emptySpace = 0;
         let penalty = 0;
+        const penaltyCells = [];
         for(const cell of block.shape){
             if(block.fY+cell.y === 26){
                 emptySpace = 0;
@@ -139,10 +140,26 @@ module.exports = class World{
                     break;
                 }else{
                     emptySpace++;
+                    penaltyCells.push({
+                        x:block.fX+cell.x,
+                        y:block.fY+cell.y+y
+                    });
                 }
             }
         }
         penalty += emptySpace*(54-((GameSetting.DROP_SPEED-this.dropSpeed)/15));
+        //ここでio.emitする
+        //penaltypointと座標を渡す
+        if(penalty !== 0){
+            this.io.to(this.worldId).emit('penalty',{
+                position:{
+                    X:block.fX,
+                    Y:block.fY
+                },
+                penalty,
+                penaltyCells
+            });
+        }
 
         return penalty;
     }
