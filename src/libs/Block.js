@@ -96,11 +96,11 @@ module.exports = class Block{
     nextBlock(){
         const score = this.world.addFixedBlock(this);
         this.user.score += score;
+        this.stopDrop();
         if(this.world.checkGameOver()){
-            this.stopDrop();
+            this.user.updateNext();
             this.world.gameOver();
         }else{
-            this.stopDrop();
             this.user.nextBlock();
         }
     }
