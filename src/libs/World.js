@@ -179,6 +179,7 @@ module.exports = class World{
     gameOver(){
         this.gameOn = false;
         this.stopUpdate();
+        this.io.to(this.worldId).emit('update',this.createFieldData());
         const gameOverData = [];
         let userI = 0;
         for(const user of this.setUser){
