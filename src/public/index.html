@@ -2,7 +2,8 @@
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=537,initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="screen">
 </head>
 <body>
     <div id = "cont">
@@ -24,6 +25,33 @@
             drop : ↑</br>
             rotate : a s</br>
             hold : d 
+        </div>
+    </div>
+    <div id="smart">
+        <div id="upper">
+            <div class="smart-button" id="rotate-l">
+               ↺ 
+            </div>
+            <div class="smart-button" id="drop">
+                DROP
+            </div>
+            <div class="smart-button" id="rotate-r">
+               ↻ 
+            </div>
+        </div>
+        <div id="lower">
+            <div class="smart-button" id="left">
+                ←
+            </div>
+            <div class="smart-button" id="down">
+                ↓
+            </div>
+            <div class="smart-button" id="right">
+                →
+            </div>
+        </div>
+        <div id="hold">
+            HOLD
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>

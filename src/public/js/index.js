@@ -30,6 +30,37 @@ const sendNameButton = document.getElementById('sendNameButton');
 sendNameButton.addEventListener('click',()=>{
     socket.emit('sendName',document.sendName.userName.value);
 });
+//スマホ用ボタン
+document.getElementById('rotate-l').addEventListener('click',()=>{
+    sendMove(65);
+});
+document.getElementById('drop').addEventListener('click',()=>{
+    sendMove(38);
+});
+document.getElementById('rotate-r').addEventListener('click',()=>{
+    sendMove(83);
+});
+document.getElementById('left').addEventListener('click',()=>{
+    sendMove(37);
+});
+document.getElementById('down').addEventListener('click',()=>{
+    sendMove(40);
+});
+document.getElementById('right').addEventListener('click',()=>{
+    sendMove(39);
+});
+document.getElementById('hold').addEventListener('click',()=>{
+    sendMove(68);
+});
+const sendMove = (keyCode)=>{
+    const now = new Date();
+    const sendData = {
+        keyCode,
+        time:now.getTime()
+    };
+    socket.emit('move',sendData);
+};
+
 //Controller
 const controller = document.getElementById('controller');
 controller.style.width = ScreenSetting.CANVAS_WIDTH+'px';
