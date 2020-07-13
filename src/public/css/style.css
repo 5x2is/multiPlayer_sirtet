@@ -1,6 +1,8 @@
 #cont{
     display:flex;
     position:relative;
+    height:576px;
+    user-select:none;
 }
 #canvas_div{
     position:relative;
@@ -83,4 +85,59 @@
     font-size:30px;
     margin:20px;
     color:black;
+}
+#smart{
+    display:none;
+}
+@media screen and (hover:none){
+    #description{
+        display:none;
+    }
+    html{
+        touch-action: none;
+    }
+    #smart{
+        display:block;
+        background:white;
+    }
+    #upper{
+        display:flex;
+        flex-direction:row;
+        height:80px;
+    }
+    #lower{
+        display:flex;
+        flex-direction:row;
+        height:80px;
+    }
+    .smart-button{
+        display:inline;
+        width:33%;
+        line-height:80px;
+        text-align:center;
+        border:2px solid white;
+        background:black;
+        color:white;
+        user-select:none;
+        font-size:30px;
+    }
+    #rotate-l{
+        font-size:50px;
+        line-height:60px;
+    }
+    #rotate-r{
+        font-size:50px;
+        line-height:60px;
+    }
+    #hold{
+        height:60px;
+        width:100%;
+        background:black;
+        border:2px solid white;
+        font-size:30px;
+        user-select:none;
+        color:white;
+        text-align:center;
+        line-height:60px;
+    }
 }
