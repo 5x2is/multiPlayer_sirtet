@@ -93,8 +93,8 @@
     #description{
         display:none;
     }
-    html{
-        touch-action: none;
+    body{
+        touch-action: manipulation;
     }
     #smart{
         display:block;
