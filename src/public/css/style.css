@@ -1,3 +1,8 @@
+
+html{
+	touch-action: manipulation;
+	font-family: "Arial";
+}
 #cont{
     display:flex;
     position:relative;
@@ -90,15 +95,22 @@
     display:none;
 }
 @media screen and (hover:none){
+	body::-webkit-scrollbar {
+		  display: none;
+		}
     #description{
         display:none;
     }
-    body{
+    html,canvas{
         touch-action: manipulation;
+        user-select:none;
+				-webkit-user-select: none; /* Chrome, Safari, and Opera */
+				-webkit-touch-callout: none; /* Disable Android and iOS callouts*/
     }
     #smart{
         display:block;
-        background:white;
+        background:red;
+				width:522px;
     }
     #upper{
         display:flex;
@@ -118,7 +130,6 @@
         border:2px solid white;
         background:black;
         color:white;
-        user-select:none;
         font-size:30px;
     }
     #rotate-l{
@@ -131,7 +142,7 @@
     }
     #hold{
         height:60px;
-        width:100%;
+        width:518px;
         background:black;
         border:2px solid white;
         font-size:30px;
